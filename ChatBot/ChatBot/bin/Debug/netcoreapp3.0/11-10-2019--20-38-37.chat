@@ -1,0 +1,85 @@
+11/10/2019 20:39:00,Broadcaster,RamblingGeek,ramblinggeek,True,LOL
+11/10/2019 20:39:18,Viewer,CodebaseAlpha,codebasealpha,True,codebaHype
+11/10/2019 20:39:19,Viewer,wmoxam,wmoxam,False,we did it
+11/10/2019 20:39:39,Viewer,CodebaseAlpha,codebasealpha,True,So much exposure for my channel tonight
+11/10/2019 20:39:59,Viewer,wmoxam,wmoxam,False,CoolCat
+11/10/2019 20:40:26,Viewer,tbdgamer,tbdgamer,False,moving the check on the boolean first is a good optimization because it's less costly than the lookup in the list. If the list were bigger that could save you some time
+11/10/2019 20:40:41,Viewer,CodebaseAlpha,codebasealpha,True,I have not found anything for VIPs as yet
+11/10/2019 20:40:57,Viewer,AncientCoder,ancientcoder,False,Are you not able to post the live coders link? @ramblinggeek
+11/10/2019 20:41:08,Viewer,tbdgamer,tbdgamer,False,well, that's why these guys jumped on that, I just figured it was worth noting why
+11/10/2019 20:41:21,Viewer,tbdgamer,tbdgamer,False,I suggested the && because I wasn't really considering the list to be that costly, but it's a good optimization.
+11/10/2019 20:41:23,Moderator,cmjchrisjones,cmjchrisjones,False,!lurk
+11/10/2019 20:41:33,Moderator,StreamElements,streamelements,False,Thanks for hanging out cmjchrisjones. Happy to have you here....
+11/10/2019 20:41:54,Viewer,CodebaseAlpha,codebasealpha,True,You gotta love Vector
+11/10/2019 20:42:24,Viewer,CodedBeard,codedbeard,False,which is why we should pre-empt that... :)
+11/10/2019 20:42:29,Viewer,CodebaseAlpha,codebasealpha,True,WE need to code our own API for Vector...somehow
+11/10/2019 20:43:10,Moderator,StreamElements,streamelements,False,Have Amazon Prime? You can use your Twitch Prime benefits to subscribe to one Twitch channel each month!-
+11/10/2019 20:43:50,Viewer,CodebaseAlpha,codebasealpha,True,Would Fiddler work?
+11/10/2019 20:44:06,Viewer,CodedBeard,codedbeard,False,yea it would but we need to get it inline
+11/10/2019 20:44:24,Viewer,CodedBeard,codedbeard,False,no fiddler supports decrypting traffic
+11/10/2019 20:44:38,Viewer,CodedBeard,codedbeard,False,the problem is that vector isn't sending traffic to your machine
+11/10/2019 20:44:52,Viewer,CodedBeard,codedbeard,False,it installs its own cert
+11/10/2019 20:45:03,Viewer,CopperBeardy,copperbeardy,False,lotof people here who start with Co
+11/10/2019 20:45:04,Viewer,CodedBeard,codedbeard,False,just like the thing you were discribing
+11/10/2019 20:45:25,Viewer,CodedBeard,codedbeard,False,we tried before setting it up on a virtual nic via the wifi so that we could intercept it
+11/10/2019 20:45:29,Moderator,cmjchrisjones,cmjchrisjones,False,!unlurk
+11/10/2019 20:45:39,Viewer,CodebaseAlpha,codebasealpha,True,If it was easy, HTTPS would be pointless
+11/10/2019 20:45:39,Viewer,CodedBeard,codedbeard,False,but you didn't quite get that working
+11/10/2019 20:46:05,Viewer,CodedBeard,codedbeard,False,it is 'easy' when you control all the kit, if you know about networking
+11/10/2019 20:47:22,Viewer,tbdgamer,tbdgamer,False,I think the LiveCoder team should just develop and kit out a stream robot and open source it.
+11/10/2019 20:47:25,Viewer,CodedBeard,codedbeard,False,yea its much easier if you aren't trying to stream at the same time
+11/10/2019 20:47:27,Viewer,CodebaseAlpha,codebasealpha,True,networking stuff is a black art
+11/10/2019 20:47:32,Viewer,tbdgamer,tbdgamer,False,might be simpler.
+11/10/2019 20:47:39,Viewer,CopperBeardy,copperbeardy,False,so what the problem for someone was riding the galaxy of outlaws and only have paying attention
+11/10/2019 20:47:51,Broadcaster,RamblingGeek,ramblinggeek,True,!discord
+11/10/2019 20:47:51,Moderator,StreamElements,streamelements,False,The stream discord channel is here : https://discord.gg/cQZwNRa
+11/10/2019 20:48:10,Moderator,StreamElements,streamelements,False,Thanks for dropping by, if you're not following, then please consider following me, it helps me out and costs you nothing!
+11/10/2019 20:49:04,Viewer,CodedBeard,codedbeard,False,@CodebaseAlpha yea i forget that most people don't have to implement networks that support 10k+ users.
+11/10/2019 20:49:14,Viewer,CodedBeard,codedbeard,False,its not easy, it goes wrong a lot
+11/10/2019 20:49:54,Viewer,CodebaseAlpha,codebasealpha,True,Its why we have a specialist team at work. I know some basics, but would not want to get too involved in networking
+11/10/2019 20:50:11,Viewer,CodedBeard,codedbeard,False,@RamblingGeek you probably know most of it, you just haven't had to do it in anger
+11/10/2019 20:50:27,Viewer,AncientCoder,ancientcoder,False,Ouch
+11/10/2019 20:50:40,Viewer,AncientCoder,ancientcoder,False,No dark reader?
+11/10/2019 20:51:10,Moderator,StreamElements,streamelements,False,Have Amazon Prime? You can use your Twitch Prime benefits to subscribe to one Twitch channel each month!-
+11/10/2019 20:51:10,Viewer,CodedBeard,codedbeard,False,I started off where you are, learned the more complex stuff through need to
+11/10/2019 20:51:16,Viewer,tbdgamer,tbdgamer,False,@AncientCoder I envision you sat in a really dark room all the time with just the light of the screen
+11/10/2019 20:51:31,Viewer,tbdgamer,tbdgamer,False,and every time a screen pops up that's not dark reader, you recoil...
+11/10/2019 20:51:35,Viewer,CodebaseAlpha,codebasealpha,True,..and a Guy Fawkes mask on?
+11/10/2019 20:51:55,Viewer,AncientCoder,ancientcoder,False,@tbdgamer yep
+11/10/2019 20:52:08,Viewer,CodedBeard,codedbeard,False,yea you can just proxy it and decrypt the lot, you know how to just not done it like this
+11/10/2019 20:52:20,Viewer,CodedBeard,codedbeard,False,yes exactly
+11/10/2019 20:52:52,Viewer,CopperBeardy,copperbeardy,False,A for Awesome :)
+11/10/2019 20:52:58,Viewer,CodebaseAlpha,codebasealpha,True,I have to work tomorrow for a few hours too :-(
+11/10/2019 20:53:20,Viewer,CodedBeard,codedbeard,False,damn it, did i sideline the stream again
+11/10/2019 20:53:26,Viewer,CodebaseAlpha,codebasealpha,True,ADFS chnages
+11/10/2019 20:53:43,Viewer,CodedBeard,codedbeard,False,have you upgraded yet @CodebaseAlpha
+11/10/2019 20:53:51,Viewer,CopperBeardy,copperbeardy,False,wow a pre book appointment i thought they were just a myth in this country now
+11/10/2019 20:54:09,Viewer,CodebaseAlpha,codebasealpha,True,No @CodedBeard and I haven't managed to offload it to Infrastructure either
+11/10/2019 20:54:16,Viewer,AncientCoder,ancientcoder,False,@ramblinggeek hopefully nothing serious
+11/10/2019 20:54:39,Viewer,CodedBeard,codedbeard,False,do it, it means you can change stuff in the day without breaking stuff @CodebaseAlpha
+11/10/2019 20:55:02,Viewer,CodebaseAlpha,codebasealpha,True,That would be heaven @CodedBeard
+11/10/2019 20:55:20,Viewer,CodedBeard,codedbeard,False,2016 and 2019 are robust, no need to worry :)
+11/10/2019 20:55:21,Viewer,CopperBeardy,copperbeardy,False,were I am the surgery opens at 8 am if you don't get through to the receptionist before 8:10 all appointments are gone
+11/10/2019 20:55:39,Viewer,CodedBeard,codedbeard,False,@RamblingGeek older versions of adfs were flakey
+11/10/2019 20:55:53,Viewer,CodedBeard,codedbeard,False,you had to be really careful changing stuff
+11/10/2019 20:55:59,Viewer,CodebaseAlpha,codebasealpha,True,WE are running an ancient version of ADFS
+11/10/2019 20:56:11,Viewer,CodedBeard,codedbeard,False,2016 i change stuff in the middle of the day, doesn't break or interupt anything
+11/10/2019 20:56:34,Viewer,CodebaseAlpha,codebasealpha,True,v2.0
+11/10/2019 20:56:47,Viewer,CodedBeard,codedbeard,False,its supporting over 15k users for all 365 operations
+11/10/2019 20:57:00,Viewer,CodedBeard,codedbeard,False,as well as a tonne of other apps
+11/10/2019 20:57:07,Viewer,CodebaseAlpha,codebasealpha,True,If I look at it funny, it breaks
+11/10/2019 20:57:33,Viewer,CodedBeard,codedbeard,False,4 and 5 are really solid
+11/10/2019 20:57:37,Viewer,CodebaseAlpha,codebasealpha,True,SSO
+11/10/2019 20:57:44,Viewer,CodedBeard,codedbeard,False,its worth the effort to upgrade
+11/10/2019 20:57:55,Viewer,CodedBeard,codedbeard,False,yea we use it for most internal and external apps now
+11/10/2019 20:58:10,Moderator,StreamElements,streamelements,False,Thanks for dropping by, if you're not following, then please consider following me, it helps me out and costs you nothing!
+11/10/2019 20:58:42,Viewer,CodebaseAlpha,codebasealpha,True,I inherited it cos I was the only one foolish enuf to figure out how it worked and to customise it
+11/10/2019 20:59:07,Viewer,CodebaseAlpha,codebasealpha,True,Pro Tip: don't volunterr for things
+11/10/2019 20:59:10,Moderator,StreamElements,streamelements,False,Have Amazon Prime? You can use your Twitch Prime benefits to subscribe to one Twitch channel each month!-
+11/10/2019 20:59:37,Viewer,CodedBeard,codedbeard,False,it will take you a day or two to move to 2016/2019, it is seriously worth it, even with complex setups, powershell ftw :)
+11/10/2019 21:00:09,Viewer,CodebaseAlpha,codebasealpha,True,Once we are fully in Azure, I'll take a look at upgrading
+11/10/2019 21:01:03,Viewer,CodebaseAlpha,codebasealpha,True,WE have a farm of 12 servers, so its a daunting job
+11/10/2019 21:01:26,Viewer,CopperBeardy,copperbeardy,False,off to watch QI before i go to bed, night all
+11/10/2019 21:01:45,Viewer,CodedBeard,codedbeard,False,you don't need that many with newer versions, and you can build and test them before hand, just use host overrides on the machine
+11/10/2019 21:02:07,Viewer,CodebaseAlpha,codebasealpha,True,redundant federation servers and proxies
+11/10/2019 21:02:14,Viewer,AncientCoder,ancientcoder,False,N n @copperbeardy

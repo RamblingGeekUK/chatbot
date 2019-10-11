@@ -19,7 +19,7 @@ namespace ChatBot
         private readonly Dictionary<string, ICommand> commands;
         private readonly string chatfilename = DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".chat";  // Create filename based on todays date and time to be used to log chat to text file
 
-        private List<TwitchLiveCoders> coders;
+        private List<String> coders;
 
         public Bot()
         {
@@ -53,30 +53,19 @@ namespace ChatBot
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            if (coders.Exists(c => c.users.Any(c => c.display_name == e.ChatMessage.DisplayName)))
+
+            if (e.ChatMessage.IsBroadcaster)
+            {
+                string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
+                new CommandAnnounce(client).Execute(message, e);
+            } 
+            else if (coders.Contains(e.ChatMessage.DisplayName))
             {
                 string message = ("!so " + e.ChatMessage.DisplayName);
-                this.client.SendMessage(e.ChatMessage.Channel, $"A live coder is in the chat, check out RamblingGeek, stream at twitch dot tv/{e.ChatMessage.DisplayName}");
-                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out RamblingGeek, stream at twitch dot tv/{e.ChatMessage.DisplayName}", e);
-
-                // Once Live coder has been mentioned remove them from list, so not to mention again in this session.
-                var removecoder = coders.FindIndex(c => c.users.Any(c => c.display_name == e.ChatMessage.DisplayName));
-                if(removecoder >= 0)
-                {
-                    coders.RemoveAt(removecoder);
-                }
+                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch dot tv/{e.ChatMessage.DisplayName}", e);
+                coders.Remove(e.ChatMessage.DisplayName);
             }
-
-            // Check if user is a mod and not a livecoder and if that is true thank them, this prevents a live coder being shouted out
-            // twice. 
-            if (e.ChatMessage.IsModerator == true && coders.Exists(c => c.users.Any(c => c.display_name != e.ChatMessage.DisplayName)))
-            {
-                string message = $"Thanks for being a mod live coder is in the chat, check out { e.ChatMessage.DisplayName }, stream at twitch dot tv / {e.ChatMessage.DisplayName}";
-                this.client.SendMessage(e.ChatMessage.Channel, message);
-                new CommandAnnounce(client).Execute(message, e);
-            }
-
-
+          
             StreamWriter writer;
 
             if (File.Exists(chatfilename) == true)
@@ -127,7 +116,7 @@ namespace ChatBot
         }
 
 
-        public List<TwitchLiveCoders> GetLiveCoders()
+        public List<String> GetLiveCoders()
         {
             try
             {
@@ -139,16 +128,15 @@ namespace ChatBot
 
                 var result = client.GetStringAsync(url).Result;
                 List<TwitchLiveCoders> coders = new List<TwitchLiveCoders>();
-                coders.Add(JsonConvert.DeserializeObject<TwitchLiveCoders>(result));
+                var team = JsonConvert.DeserializeObject<TwitchLiveCoders>(result);
 
-                return new List<TwitchLiveCoders>(coders);
+                return new List<string>(team.users.Select(c => c.display_name));
             }
             catch
             {
                 Console.WriteLine("Called failed");
-                return null;
+                return new List<string>();
             }
-
         }
     }
 }
