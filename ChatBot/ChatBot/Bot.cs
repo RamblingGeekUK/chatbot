@@ -19,7 +19,7 @@ namespace ChatBot
         private readonly Dictionary<string, ICommand> commands;
         private readonly string chatfilename = DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".chat";  // Create filename based on todays date and time to be used to log chat to text file
 
-        private List<String> coders;
+        private List<string> coders;
 
         public Bot()
         {
@@ -116,7 +116,7 @@ namespace ChatBot
         }
 
 
-        public List<String> GetLiveCoders()
+        public List<string> GetLiveCoders()
         {
             try
             {
