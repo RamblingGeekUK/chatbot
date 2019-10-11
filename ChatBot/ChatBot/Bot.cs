@@ -55,9 +55,27 @@ namespace ChatBot
         {
             if (coders.Exists(c => c.users.Any(c => c.display_name == e.ChatMessage.DisplayName)))
             {
-                string message = ("Hello " + e.ChatMessage.DisplayName);
-                this.client.SendMessage(e.ChatMessage.Channel, message);
+                string message = ("!so " + e.ChatMessage.DisplayName);
+                this.client.SendMessage(e.ChatMessage.Channel, $"A live coder is in the chat, check out RamblingGeek, stream at twitch dot tv/{e.ChatMessage.DisplayName}");
+                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out RamblingGeek, stream at twitch dot tv/{e.ChatMessage.DisplayName}", e);
+
+                // Once Live coder has been mentioned remove them from list, so not to mention again in this session.
+                var removecoder = coders.FindIndex(c => c.users.Any(c => c.display_name == e.ChatMessage.DisplayName));
+                if(removecoder >= 0)
+                {
+                    coders.RemoveAt(removecoder);
+                }
             }
+
+            // Check if user is a mod and not a livecoder and if that is true thank them, this prevents a live coder being shouted out
+            // twice. 
+            if (e.ChatMessage.IsModerator == true && coders.Exists(c => c.users.Any(c => c.display_name != e.ChatMessage.DisplayName)))
+            {
+                string message = $"Thanks for being a mod live coder is in the chat, check out { e.ChatMessage.DisplayName }, stream at twitch dot tv / {e.ChatMessage.DisplayName}";
+                this.client.SendMessage(e.ChatMessage.Channel, message);
+                new CommandAnnounce(client).Execute(message, e);
+            }
+
 
             StreamWriter writer;
 
