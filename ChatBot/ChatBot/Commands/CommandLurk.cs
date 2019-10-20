@@ -18,7 +18,7 @@ namespace ChatBot.Base
             client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
 
             var message = $" { e.Command.ChatMessage.Username } is Lurking for a little while..." ;
-            this.SendMessage(e.Command.ChatMessage.Channel, message);
+            this.MessageChat(e.Command.ChatMessage.Channel, message);
             new CommandAnnounce(client).Execute(message, e);
         }
     }

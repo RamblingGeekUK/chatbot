@@ -34,7 +34,7 @@ namespace ChatBot.Base
 
             foreach (var message in msg)
             {
-                this.SendMessage(e.Command.ChatMessage.Channel, message);
+                this.MessageChat(e.Command.ChatMessage.Channel, message);
                 new CommandAnnounce(client).Execute(message, e);
             }
         }

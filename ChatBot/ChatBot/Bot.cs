@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-
+using System.Text.RegularExpressions;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
@@ -20,6 +20,7 @@ namespace ChatBot
         private readonly string chatfilename = DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".chat";  // Create filename based on todays date and time to be used to log chat to text file
 
         private List<string> coders;
+        private List<string> Links = new List<string>();
 
         public Bot()
         {
@@ -62,11 +63,18 @@ namespace ChatBot
             else if (coders.Contains(e.ChatMessage.DisplayName))
             {
                 string message = ("!so " + e.ChatMessage.DisplayName);
-                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch dot tv/{e.ChatMessage.DisplayName}", e);
+                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
                 coders.Remove(e.ChatMessage.DisplayName);
             }
           
             StreamWriter writer;
+
+            foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(http|www|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?"))
+            {
+                Links.Add(link.Value);
+                Console.WriteLine($"link: {link.Value}");
+            }
+
 
             if (File.Exists(chatfilename) == true)
             {
@@ -96,16 +104,35 @@ namespace ChatBot
         }
         private void Client_OnLog(object sender, OnLogArgs e)
         {
-            Console.WriteLine($"{e.DateTime.ToString()}: {e.BotUsername} - {e.Data}");
+            //Console.WriteLine($"{e.DateTime.ToString()}: {e.BotUsername} - {e.Data}");
         }
         private void Client_OnConnectedAsync(object sender, OnConnectedArgs e)
         {
-            Console.WriteLine($"Connected to {e.AutoJoinChannel}");
-            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Connected to Channel ({e.AutoJoinChannel}) : OK");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
-            Console.WriteLine("J5 is connected to chat");
+
+            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Bot Joined Chat {0}", " : OK".PadLeft(24,'.'));            
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            if (new CommandAnnounce(client).Vector(""))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Call to Vector API {0}", " : OK".PadLeft(21,'.'));
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Call to Vector API : {0}", " : failed".PadLeft(21,'.'));
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+
         }
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
         {
@@ -134,7 +161,7 @@ namespace ChatBot
             }
             catch
             {
-                Console.WriteLine("Called failed");
+                Console.WriteLine("Call failed");
                 return new List<string>();
             }
         }

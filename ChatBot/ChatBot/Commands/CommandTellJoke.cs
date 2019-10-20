@@ -18,7 +18,7 @@ namespace ChatBot.Base
 
             var joke = SelectJoke();
 
-            this.SendMessage(e.Command.ChatMessage.Channel, joke);
+            this.MessageChat(e.Command.ChatMessage.Channel, joke);
             new CommandAnnounce(client).Execute(joke, e);
         }
 

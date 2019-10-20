@@ -17,7 +17,7 @@ namespace ChatBot.Base
         {
             client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
             var message = $"Welcome back { e.Command.ChatMessage.Username }, happy to have you back in chat!";
-            this.SendMessage(e.Command.ChatMessage.Channel, message);
+            this.MessageChat(e.Command.ChatMessage.Channel, message);
             new CommandAnnounce(client).Execute(message, e);
         }
     }

@@ -15,22 +15,42 @@ namespace ChatBot.Base
 
         public void Execute (string message, OnRaidNotificationArgs e)
         {
-            this.SendMessage(e.Channel, message);
+            this.MessageChat(e.Channel, message);
             this.Vector(message);
         }
         public void Execute(string message, OnMessageReceivedArgs e)
         {
-            this.SendMessage(e.ChatMessage.Channel, message);
+            this.MessageChat(e.ChatMessage.Channel, message);
             this.Vector(message);
         }
 
         public void Execute(string message, OnChatCommandReceivedArgs e)
         {
-            this.SendMessage(e.Command.ChatMessage.BotUsername, message);
+            this.MessageChat(e.Command.ChatMessage.BotUsername, message);
             this.Vector(message);
         }
 
-        public void Vector(string say)
+        ////public bool VectorAPICheck(OnJoinedChannelArgs e)
+        ////{
+        ////    string message = null;
+        ////    this.MessageChat(e.Channel, message);
+            
+        ////    if (this.Vector(message))
+        ////    {
+        ////        Console.ForegroundColor = ConsoleColor.Green;
+        ////        Console.WriteLine($"Call to Vector API with message : {message}");
+        ////        Console.ForegroundColor = ConsoleColor.Gray;
+        ////    }
+        ////    else
+        ////    {
+        ////        Console.ForegroundColor = ConsoleColor.Red;
+        ////        Console.WriteLine("Call to Vector API failed, check it's running");
+        ////        Console.ForegroundColor = ConsoleColor.Gray;
+        ////    }
+
+        //}
+
+        public bool Vector(string say)
         {
             // Added by CMChrisJones
             var sayAsByteArray = Encoding.UTF8.GetBytes(say);
@@ -38,17 +58,14 @@ namespace ChatBot.Base
 
             try
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    Console.WriteLine("Calling API ..." + encoded);
-                    var result = client.GetAsync(VectorRestURL + "/say/" + encoded).Result;
-                }
+                using HttpClient client = new HttpClient();
+                var result = client.GetAsync(VectorRestURL + "/say/" + encoded).Result;
+                return true;
             }
             catch
             {
-                Console.WriteLine("Called failed, check the Vector API is running");
+                return false;
             }
         }
-
     }
 }

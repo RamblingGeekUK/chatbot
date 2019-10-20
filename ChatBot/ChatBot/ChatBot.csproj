@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="11-10-2019--17-46-52.chat" />
+    <None Remove="11-10-2019--17-52-01.chat" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Commands\" />
   </ItemGroup>
 

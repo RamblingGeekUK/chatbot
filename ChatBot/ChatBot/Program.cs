@@ -7,7 +7,6 @@ namespace ChatBot
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             new Bot();
             Console.ReadLine();
         }

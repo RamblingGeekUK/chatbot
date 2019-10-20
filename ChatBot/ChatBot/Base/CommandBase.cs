@@ -13,6 +13,7 @@ namespace ChatBot.Base
         protected readonly TwitchClient client;
         protected readonly TwitchPubSub clientpubsub;
         protected readonly string VectorRestURL = "http://localhost:5000";
+        
 
         public CommandBase(TwitchClient client)
         {
@@ -24,9 +25,9 @@ namespace ChatBot.Base
             this.clientpubsub = clientpubsub;
         }
 
-        protected void SendMessage(string channel, string message)
+        protected void MessageChat(string channel, string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine($"CommandBase MessageChat : {message}");
             this.client.SendMessage(channel, message);
         }
 
@@ -56,7 +57,8 @@ namespace ChatBot.Base
             }
             catch
             {
-                Console.WriteLine("Called failed, check the Vector API is running");
+                Console.WriteLine("Call failed, check the Vector API is running");
+
             }
         }
 
