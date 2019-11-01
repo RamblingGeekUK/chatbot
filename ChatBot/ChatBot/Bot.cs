@@ -24,6 +24,9 @@ namespace ChatBot
 
         public Bot()
         {
+            // Wait to ensure the VectorREST API has had time to start. 
+            System.Threading.Thread.Sleep(5000);
+
             ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
 
             this.client = new TwitchClient();
@@ -114,8 +117,6 @@ namespace ChatBot
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
-
-            
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Bot Joined Chat {0}", " : OK".PadLeft(24,'.'));            
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -125,11 +126,13 @@ namespace ChatBot
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Call to Vector API {0}", " : OK".PadLeft(21,'.'));
                 Console.ForegroundColor = ConsoleColor.Gray;
+
+                new CommandAnnounce(client).Vector("Hello World!");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Call to Vector API : {0}", " : failed".PadLeft(21,'.'));
+                Console.WriteLine("Call to Vector API : {0} 😢", " : Failed".PadLeft(23,'.'));
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
 

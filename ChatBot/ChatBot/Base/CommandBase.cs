@@ -3,15 +3,13 @@ using System;
 using System.Net.Http;
 using System.Text;
 using TwitchLib.Client;
-using TwitchLib.Client.Events;
-using TwitchLib.PubSub;
 
 namespace ChatBot.Base
 {
     public abstract class CommandBase
     {
         protected readonly TwitchClient client;
-        protected readonly TwitchPubSub clientpubsub;
+        //protected readonly TwitchPubSub clientpubsub;
         protected readonly string VectorRestURL = "http://localhost:5000";
         
 
@@ -20,10 +18,10 @@ namespace ChatBot.Base
             this.client = client;
         }
 
-        public CommandBase(TwitchPubSub clientpubsub)
-        {
-            this.clientpubsub = clientpubsub;
-        }
+        //public CommandBase(TwitchPubSub clientpubsub)
+        //{
+        //    this.clientpubsub = clientpubsub;
+        //}
 
         protected void MessageChat(string channel, string message)
         {

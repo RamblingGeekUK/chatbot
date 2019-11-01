@@ -9,12 +9,16 @@ D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.AssemblyIn
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.AssemblyInfo.cs
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.pdb
+D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
+D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Client.dll
+D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Client.Enums.dll
+D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Client.Models.dll
+D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.csproj.CopyComplete
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Logging.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Options.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Primitives.dll
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Serilog.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Serilog.Extensions.Logging.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.dll
@@ -26,9 +30,5 @@ D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.Heli
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.Helix.Models.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.V5.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.V5.Models.dll
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Client.dll
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Client.Enums.dll
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Client.Models.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Communication.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.PubSub.dll
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.csproj.CopyComplete

@@ -15,8 +15,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta2" />
     <PackageReference Include="TwitchLib" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TwitchLib.Client">
+      <HintPath>..\..\..\..\playground\TwitchLib.Client\TwitchLib.Client\bin\Release\netstandard2.0\TwitchLib.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="TwitchLib.Client.Enums">
+      <HintPath>..\..\..\..\playground\TwitchLib.Client\TwitchLib.Client\bin\Release\netstandard2.0\TwitchLib.Client.Enums.dll</HintPath>
+    </Reference>
+    <Reference Include="TwitchLib.Client.Models">
+      <HintPath>..\..\..\..\playground\TwitchLib.Client\TwitchLib.Client\bin\Release\netstandard2.0\TwitchLib.Client.Models.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
