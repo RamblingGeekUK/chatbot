@@ -13,6 +13,7 @@ using TwitchLib.Client.Models;
 
 namespace ChatBot
 {
+    
     public class Bot
     {
         private readonly TwitchClient client;
@@ -22,12 +23,15 @@ namespace ChatBot
         private List<string> coders;
         private List<string> Links = new List<string>();
 
+        public Boolean VectorAlive = false;
+
         public Bot()
         {
             // Wait to ensure the VectorREST API has had time to start. 
             System.Threading.Thread.Sleep(5000);
 
             ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
+            
 
             this.client = new TwitchClient();
             this.client.Initialize(credentials, Settings.Twitch_channel);
@@ -37,6 +41,7 @@ namespace ChatBot
             this.client.OnConnected += Client_OnConnectedAsync;
             this.client.OnChatCommandReceived += Client_OnChatCommandReceived;
             this.client.OnRaidNotification += Client_OnRaidNotification;
+            this.client.OnWhisperReceived += Client_OnWhisperReceived;
             this.client.Connect();
 
             this.commands = new Dictionary<string, ICommand>
@@ -53,6 +58,14 @@ namespace ChatBot
             };
 
             coders = GetLiveCoders();
+
+    }
+
+        private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Whisper received from {0}", $" : {e.WhisperMessage.DisplayName}".PadLeft(30, '.'));
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
@@ -60,8 +73,8 @@ namespace ChatBot
 
             if (e.ChatMessage.IsBroadcaster)
             {
-                string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
-                new CommandAnnounce(client).Execute(message, e);
+                //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
+                //new CommandAnnounce(client).Execute(message, e);
             } 
             else if (coders.Contains(e.ChatMessage.DisplayName))
             {
@@ -128,11 +141,13 @@ namespace ChatBot
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 new CommandAnnounce(client).Vector("Hello World!");
+                VectorAlive = true;
             }
             else
             {
+                VectorAlive = false;
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Call to Vector API : {0} 😢", " : Failed".PadLeft(23,'.'));
+                Console.WriteLine("Call to Vector API : {0} ", " : Failed".PadLeft(23,'.'));
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
 

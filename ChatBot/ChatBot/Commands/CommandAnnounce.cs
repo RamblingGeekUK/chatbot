@@ -18,6 +18,11 @@ namespace ChatBot.Base
             this.MessageChat(e.Channel, message);
             this.Vector(message);
         }
+        public void Execute(string message, OnWhisperReceivedArgs e)
+        {
+            this.MessageChat(e.WhisperMessage.Message, message);
+            this.Vector(message);
+        }
         public void Execute(string message, OnMessageReceivedArgs e)
         {
             this.MessageChat(e.ChatMessage.Channel, message);
