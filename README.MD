@@ -1,1 +1,3 @@
-# chatbot
+# ChatBot
+
+Well thats what it does.  This is the bot for my Twitch Channel...
