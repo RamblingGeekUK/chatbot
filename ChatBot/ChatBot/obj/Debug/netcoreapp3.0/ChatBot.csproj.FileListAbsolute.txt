@@ -4,7 +4,6 @@ D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\ChatBot.runtimecon
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\ChatBot.runtimeconfig.dev.json
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\ChatBot.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\ChatBot.pdb
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.csprojAssemblyReference.cache
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.AssemblyInfoInputs.cache
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.AssemblyInfo.cs
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.dll
@@ -32,3 +31,4 @@ D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.V5.d
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.V5.Models.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Communication.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.PubSub.dll
+D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.csprojAssemblyReference.cache

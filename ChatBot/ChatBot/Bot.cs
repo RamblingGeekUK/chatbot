@@ -18,8 +18,10 @@ namespace ChatBot
     {
         private readonly TwitchClient client;
         private readonly Dictionary<string, ICommand> commands;
-        private readonly string chatfilename = DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".chat";  // Create filename based on todays date and time to be used to log chat to text file
-
+        // Create filename based on todays date and time to be used to log chat to text file
+        private readonly string chatfilename = "D:\\OneDrive\\Stream\\ChatLogs\\" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".chat";
+        // Create filename based on todays date and time to be used to log links to a text file
+        private readonly string linkfilename = "D:\\OneDrive\\Stream\\ChatLogs\\" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".links";
         private List<string> coders;
         private List<string> Links = new List<string>();
 
@@ -85,10 +87,24 @@ namespace ChatBot
           
             StreamWriter writer;
 
-            foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(http|www|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?"))
+            foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
             {
-                Links.Add(link.Value);
-                Console.WriteLine($"link: {link.Value}");
+                if (File.Exists(linkfilename) == true)
+                {
+                    using (writer = File.AppendText(linkfilename))
+                    {
+                        Console.WriteLine($"link : {DateTime.UtcNow.ToString()}, {link.Value}");
+                        writer.WriteAsync($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
+                    }
+                }
+                else
+                {
+                    using (writer = File.CreateText(linkfilename))
+                    {
+                        Console.WriteLine($"link : {DateTime.UtcNow.ToString()}, {link.Value}");
+                        writer.WriteAsync($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
+                    }
+                }
             }
 
 
