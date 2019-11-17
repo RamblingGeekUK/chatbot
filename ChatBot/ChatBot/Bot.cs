@@ -6,10 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
-
+using Vector;
 
 namespace ChatBot
 {
@@ -22,8 +23,8 @@ namespace ChatBot
         private readonly string chatfilename = "D:\\OneDrive\\Stream\\ChatLogs\\" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".chat";
         // Create filename based on todays date and time to be used to log links to a text file
         private readonly string linkfilename = "D:\\OneDrive\\Stream\\ChatLogs\\" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".links";
-        private List<string> coders;
-        private List<string> Links = new List<string>();
+        private readonly List<string> coders;
+        //private readonly List<string> Links = new List<string>();
 
         public Boolean VectorAlive = false;
 
@@ -60,8 +61,23 @@ namespace ChatBot
             };
 
             coders = GetLiveCoders();
+            Speak("If this works it will be amazing");
+        }
 
-    }
+        private async void Speak(string message)
+        {
+            Robot robot = new Robot();
+            await robot.ConnectAsync("Vector-N6T3");
+
+            //gain control over the robot by suppressing its personality
+            robot.StartSuppressingPersonality();
+            await robot.WaitTillPersonalitySuppressedAsync();
+
+            //say something
+            await robot.Audio.SayTextAsync(message);
+            await robot.DisconnectAsync();
+            
+        }
 
         private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
@@ -80,11 +96,11 @@ namespace ChatBot
             } 
             else if (coders.Contains(e.ChatMessage.DisplayName))
             {
-                string message = ("!so " + e.ChatMessage.DisplayName);
+                _ = ("!so " + e.ChatMessage.DisplayName);
                 new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
                 coders.Remove(e.ChatMessage.DisplayName);
             }
-          
+
             StreamWriter writer;
 
             foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
@@ -181,7 +197,8 @@ namespace ChatBot
         {
             try
             {
-                var client = new HttpClient();
+                HttpClient httpClient = new HttpClient();
+                using HttpClient client = httpClient;
                 string url = "https://api.twitch.tv/kraken/teams/livecoders";
 
                 client.DefaultRequestHeaders.Add("Client-ID", Settings.Twitch_ID);

@@ -5,8 +5,8 @@ namespace ChatBot
 {
     class Program
     {
-        static void Main(string[] args)
-        {
+        static void Main()
+        { 
             new Bot();
             Console.ReadLine();
         }

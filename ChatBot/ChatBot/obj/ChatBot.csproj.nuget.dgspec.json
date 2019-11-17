@@ -48,6 +48,10 @@
             "TwitchLib": {
               "target": "Package",
               "version": "[3.0.1, )"
+            },
+            "Vector": {
+              "target": "Package",
+              "version": "[0.5.9, )"
             }
           },
           "imports": [
