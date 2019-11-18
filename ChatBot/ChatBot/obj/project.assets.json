@@ -344,7 +344,7 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
-      "Newtonsoft.Json/12.0.3-beta2": {
+      "Newtonsoft.Json/12.0.3": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
@@ -1708,13 +1708,13 @@
           "lib/netstandard2.0/TwitchLib.Api.V5.Models.dll": {}
         }
       },
-      "TwitchLib.Client/3.0.3": {
+      "TwitchLib.Client/3.1.4": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
-          "TwitchLib.Client.Enums": "1.1.0",
-          "TwitchLib.Client.Models": "1.1.0",
-          "TwitchLib.Communication": "1.0.0"
+          "TwitchLib.Client.Enums": "3.1.4",
+          "TwitchLib.Client.Models": "3.1.4",
+          "TwitchLib.Communication": "1.0.3"
         },
         "compile": {
           "lib/netstandard2.0/TwitchLib.Client.dll": {}
@@ -1723,7 +1723,7 @@
           "lib/netstandard2.0/TwitchLib.Client.dll": {}
         }
       },
-      "TwitchLib.Client.Enums/1.1.0": {
+      "TwitchLib.Client.Enums/3.1.4": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/TwitchLib.Client.Enums.dll": {}
@@ -1732,10 +1732,10 @@
           "lib/netstandard2.0/TwitchLib.Client.Enums.dll": {}
         }
       },
-      "TwitchLib.Client.Models/1.1.0": {
+      "TwitchLib.Client.Models/3.1.4": {
         "type": "package",
         "dependencies": {
-          "TwitchLib.Client.Enums": "1.0.0"
+          "TwitchLib.Client.Enums": "3.1.4"
         },
         "compile": {
           "lib/netstandard2.0/TwitchLib.Client.Models.dll": {}
@@ -1744,7 +1744,7 @@
           "lib/netstandard2.0/TwitchLib.Client.Models.dll": {}
         }
       },
-      "TwitchLib.Communication/1.0.0": {
+      "TwitchLib.Communication/1.0.3": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/TwitchLib.Communication.dll": {}
@@ -2253,10 +2253,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "Newtonsoft.Json/12.0.3-beta2": {
-      "sha512": "CNkBl+FKCsp1Tw7MKCpSOCKfZIElxOOBhG46VnFV2G0hRCC1Cc2UUJDknETNGeymXN1/k6hxd44uGVZvdwyEsQ==",
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
       "type": "package",
-      "path": "newtonsoft.json/12.0.3-beta2",
+      "path": "newtonsoft.json/12.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2279,7 +2279,7 @@
         "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "newtonsoft.json.12.0.3-beta2.nupkg.sha512",
+        "newtonsoft.json.12.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
@@ -5759,51 +5759,51 @@
         "twitchlib.api.v5.models.nuspec"
       ]
     },
-    "TwitchLib.Client/3.0.3": {
-      "sha512": "CEhdpXXHJ/NMhh2D1SIwqjg8/vZEH+8vycF93Bece2uyIpeiONPl1msfIH4pYY8pA/VmTkOShXs36oZh0IrYdA==",
+    "TwitchLib.Client/3.1.4": {
+      "sha512": "egNCZEAu0w3BTF0X29SY7andT2K5IxFp3vDAOrvHIk3OaceXMcGOy3wznfuGshFDW37HdirpUEKw7vrWqyezbQ==",
       "type": "package",
-      "path": "twitchlib.client/3.0.3",
+      "path": "twitchlib.client/3.1.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/TwitchLib.Client.dll",
-        "twitchlib.client.3.0.3.nupkg.sha512",
+        "twitchlib.client.3.1.4.nupkg.sha512",
         "twitchlib.client.nuspec"
       ]
     },
-    "TwitchLib.Client.Enums/1.1.0": {
-      "sha512": "eaVfXiNwzXNUpzYeSVf2S7HEeoo9DbVIiKJRFtjwRqOwS9mpMsmIXxGoT7vxXArMvppP1CB+vBLB1v19h9AkJw==",
+    "TwitchLib.Client.Enums/3.1.4": {
+      "sha512": "TxItwSS64opA90kc5cPKdfNl/AC1YkkKJgbPux5Xsq/xKgDSCmHv9K2kficWOhbxu4X2f1AvcZZXJS7rIe24WQ==",
       "type": "package",
-      "path": "twitchlib.client.enums/1.1.0",
+      "path": "twitchlib.client.enums/3.1.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/TwitchLib.Client.Enums.dll",
-        "twitchlib.client.enums.1.1.0.nupkg.sha512",
+        "twitchlib.client.enums.3.1.4.nupkg.sha512",
         "twitchlib.client.enums.nuspec"
       ]
     },
-    "TwitchLib.Client.Models/1.1.0": {
-      "sha512": "YxIu1gY6JcC7iwaOFziQaJPavIodvgrFRczwU8pbGtaeGLn4RXxf1dKZuDY98m4qmR3s4jquOnacK7Mre7jXDw==",
+    "TwitchLib.Client.Models/3.1.4": {
+      "sha512": "Zg6GKfdG4grdvg3MfWMWYLBklc7z+SRF/Pb5Go8cQ6svlXWEblZKTC84id7dICkzo7AQvTxwJ35Fx01lRAJjTA==",
       "type": "package",
-      "path": "twitchlib.client.models/1.1.0",
+      "path": "twitchlib.client.models/3.1.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/TwitchLib.Client.Models.dll",
-        "twitchlib.client.models.1.1.0.nupkg.sha512",
+        "twitchlib.client.models.3.1.4.nupkg.sha512",
         "twitchlib.client.models.nuspec"
       ]
     },
-    "TwitchLib.Communication/1.0.0": {
-      "sha512": "l2VjggmiLdrjqrBlfDbpX3YhfWDy0y8ta4YHiPwsuhfzX4lbGXlxCdHIFQmyyGtCBU/ysyLKI9MBTnEbYce6qg==",
+    "TwitchLib.Communication/1.0.3": {
+      "sha512": "Ale1+XKfSQgCBRKQQOWjvpFlx/7Ji/uoaIpOx6QIJ3NvsfzUy5/edeFWEFftqbQegLSUCK8zVSLKOmdsHJ8bYw==",
       "type": "package",
-      "path": "twitchlib.communication/1.0.0",
+      "path": "twitchlib.communication/1.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/TwitchLib.Communication.dll",
-        "twitchlib.communication.1.0.0.nupkg.sha512",
+        "twitchlib.communication.1.0.3.nupkg.sha512",
         "twitchlib.communication.nuspec"
       ]
     },
@@ -5836,8 +5836,9 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
-      "Newtonsoft.Json >= 12.0.3-beta2",
+      "Newtonsoft.Json >= 12.0.3",
       "TwitchLib >= 3.0.1",
+      "TwitchLib.Client >= 3.1.4",
       "Vector >= 0.5.9"
     ]
   },
@@ -5884,11 +5885,15 @@
         "dependencies": {
           "Newtonsoft.Json": {
             "target": "Package",
-            "version": "[12.0.3-beta2, )"
+            "version": "[12.0.3, )"
           },
           "TwitchLib": {
             "target": "Package",
             "version": "[3.0.1, )"
+          },
+          "TwitchLib.Client": {
+            "target": "Package",
+            "version": "[3.1.4, )"
           },
           "Vector": {
             "target": "Package",

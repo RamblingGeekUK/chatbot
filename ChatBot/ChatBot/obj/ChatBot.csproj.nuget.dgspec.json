@@ -43,11 +43,15 @@
           "dependencies": {
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.3-beta2, )"
+              "version": "[12.0.3, )"
             },
             "TwitchLib": {
               "target": "Package",
               "version": "[3.0.1, )"
+            },
+            "TwitchLib.Client": {
+              "target": "Package",
+              "version": "[3.1.4, )"
             },
             "Vector": {
               "target": "Package",

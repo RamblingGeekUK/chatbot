@@ -6,15 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
-using Vector;
+
 
 namespace ChatBot
 {
-    
+
     public class Bot
     {
         private readonly TwitchClient client;
@@ -30,11 +29,7 @@ namespace ChatBot
 
         public Bot()
         {
-            // Wait to ensure the VectorREST API has had time to start. 
-            System.Threading.Thread.Sleep(5000);
-
             ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
-            
 
             this.client = new TwitchClient();
             this.client.Initialize(credentials, Settings.Twitch_channel);
@@ -61,39 +56,20 @@ namespace ChatBot
             };
 
             coders = GetLiveCoders();
-            Speak("If this works it will be amazing");
-        }
-
-        private async void Speak(string message)
-        {
-            Robot robot = new Robot();
-            await robot.ConnectAsync("Vector-N6T3");
-
-            //gain control over the robot by suppressing its personality
-            robot.StartSuppressingPersonality();
-            await robot.WaitTillPersonalitySuppressedAsync();
-
-            //say something
-            await robot.Audio.SayTextAsync(message);
-            await robot.DisconnectAsync();
-            
         }
 
         private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Whisper received from {0}", $" : {e.WhisperMessage.DisplayName}".PadLeft(30, '.'));
-            Console.ForegroundColor = ConsoleColor.Gray;
+            StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "OK");
         }
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-
             if (e.ChatMessage.IsBroadcaster)
             {
                 //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
                 //new CommandAnnounce(client).Execute(message, e);
-            } 
+            }
             else if (coders.Contains(e.ChatMessage.DisplayName))
             {
                 _ = ("!so " + e.ChatMessage.DisplayName);
@@ -109,7 +85,7 @@ namespace ChatBot
                 {
                     using (writer = File.AppendText(linkfilename))
                     {
-                        Console.WriteLine($"link : {DateTime.UtcNow.ToString()}, {link.Value}");
+                        StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}","info");
                         writer.WriteAsync($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
                     }
                 }
@@ -117,7 +93,7 @@ namespace ChatBot
                 {
                     using (writer = File.CreateText(linkfilename))
                     {
-                        Console.WriteLine($"link : {DateTime.UtcNow.ToString()}, {link.Value}");
+                        StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
                         writer.WriteAsync($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
                     }
                 }
@@ -156,33 +132,12 @@ namespace ChatBot
         }
         private void Client_OnConnectedAsync(object sender, OnConnectedArgs e)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Connected to Channel ({e.AutoJoinChannel}) : OK");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            StatusInfo($"Connected to Channel ({e.AutoJoinChannel})", "OK");
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Bot Joined Chat {0}", " : OK".PadLeft(24,'.'));            
-            Console.ForegroundColor = ConsoleColor.Gray;
-
-            if (new CommandAnnounce(client).Vector(""))
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Call to Vector API {0}", " : OK".PadLeft(21,'.'));
-                Console.ForegroundColor = ConsoleColor.Gray;
-
-                new CommandAnnounce(client).Vector("Hello World!");
-                VectorAlive = true;
-            }
-            else
-            {
-                VectorAlive = false;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Call to Vector API : {0} ", " : Failed".PadLeft(23,'.'));
-                Console.ForegroundColor = ConsoleColor.Gray;
-            }
-
+        {           
+            StatusInfo("Bot Joined Chat", "OK");
+            new CommandAnnounce(client).Execute("Hello World! Vector is Alive!", e);
         }
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
         {
@@ -192,6 +147,30 @@ namespace ChatBot
             this.commands[e.Command.CommandText.ToLower()].Execute(e);
         }
 
+        public void StatusInfo(string message, string status) 
+        {
+            switch (status.ToLower())
+            {
+                case "ok":
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"{message} : {status}");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    break;
+                case "fail":
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{message} : {status}");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    break;
+                case "info":
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"{message} : {status}");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    break;
+            }
+        }
 
         public List<string> GetLiveCoders()
         {

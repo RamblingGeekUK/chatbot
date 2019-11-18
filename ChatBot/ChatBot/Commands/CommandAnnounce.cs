@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Drawing;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
+using Vector;
 
 namespace ChatBot.Base
 {
@@ -13,58 +16,50 @@ namespace ChatBot.Base
         {
         }
 
-        public void Execute (string message, OnRaidNotificationArgs e)
+        public async void Execute (string message, OnRaidNotificationArgs e)
         {
-            this.MessageChat(e.Channel, message);
-            this.Vector(message);
+            //this.MessageChat(e.Channel, message);
+            await this.Vector(message);
         }
-        public void Execute(string message, OnWhisperReceivedArgs e)
+        public async void Execute(string message, OnWhisperReceivedArgs e)
         {
-            this.MessageChat(e.WhisperMessage.Message, message);
-            this.Vector(message);
+            //this.MessageChat(e.WhisperMessage.Message, message);
+            await this.Vector(message);
         }
-        public void Execute(string message, OnMessageReceivedArgs e)
+        public async void Execute(string message, OnMessageReceivedArgs e)
         {
-            this.MessageChat(e.ChatMessage.Channel, message);
-            this.Vector(message);
-        }
-
-        public void Execute(string message, OnChatCommandReceivedArgs e)
-        {
-            this.MessageChat(e.Command.ChatMessage.BotUsername, message);
-            this.Vector(message);
+            //this.MessageChat(e.ChatMessage.Channel, message);
+            await this.Vector(message);
         }
 
-        ////public bool VectorAPICheck(OnJoinedChannelArgs e)
-        ////{
-        ////    string message = null;
-        ////    this.MessageChat(e.Channel, message);
-            
-        ////    if (this.Vector(message))
-        ////    {
-        ////        Console.ForegroundColor = ConsoleColor.Green;
-        ////        Console.WriteLine($"Call to Vector API with message : {message}");
-        ////        Console.ForegroundColor = ConsoleColor.Gray;
-        ////    }
-        ////    else
-        ////    {
-        ////        Console.ForegroundColor = ConsoleColor.Red;
-        ////        Console.WriteLine("Call to Vector API failed, check it's running");
-        ////        Console.ForegroundColor = ConsoleColor.Gray;
-        ////    }
-
-        //}
-
-        public bool Vector(string say)
+        public async void Execute(string message, OnChatCommandReceivedArgs e)
         {
-            // Added by CMChrisJones
-            var sayAsByteArray = Encoding.UTF8.GetBytes(say);
-            var encoded = System.Convert.ToBase64String(sayAsByteArray);
+            //this.MessageChat(e.Command.ChatMessage.BotUsername, message);
+            await this.Vector(message);
+        }
 
+        public async void Execute(string message, OnJoinedChannelArgs e)
+        {
+            //this.MessageChat(e.Channel, message);
+            await this.Vector(message);
+        }
+             
+        public async Task<bool> Vector(string message)
+        {
             try
             {
-                using HttpClient client = new HttpClient();
-                var result = client.GetAsync(VectorRestURL + "/say/" + encoded).Result;
+                Robot robot = new Robot();
+                await robot.ConnectAsync("Vector-N6T3");
+                await robot.Screen.SetEyeColor(Color.Azure);
+                //await robot.Animation.PlayAsync("GreetAfterLongTime");
+
+                //gain control over the robot by suppressing its personality
+                robot.StartSuppressingPersonality();
+                await robot.WaitTillPersonalitySuppressedAsync();
+
+                //say something
+                await robot.Audio.SayTextAsync(message);
+                await robot.DisconnectAsync();
                 return true;
             }
             catch
