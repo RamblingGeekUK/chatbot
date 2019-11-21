@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v3.0": {
       "ChatBot/1.0.0": {
         "dependencies": {
+          "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.9.5",
           "Newtonsoft.Json": "12.0.3",
           "TwitchLib": "3.0.1",
           "TwitchLib.Client": "3.1.4",
@@ -248,6 +249,7 @@
       },
       "Microsoft.NETCore.Platforms/2.0.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
+      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.9.5": {},
       "Microsoft.Win32.Primitives/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "2.0.0",
@@ -1372,6 +1374,13 @@
       "sha512": "sha512-aOZA3BWfz9RXjpzt0sRJJMjAscAUm3Hoa4UWAfceV9UTYxgwZ1lZt5nO2myFf+/jetYQo4uTP7zS8sJY67BBxg==",
       "path": "microsoft.netcore.targets/1.1.0",
       "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
+    },
+    "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.9.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rSZX0aAxacegOntSNMUO3rkM9ocp5jrnaM7xdzhBn3OB5XN1aFHDhoXhCswSlXwGnHmIAMxNSfLsCh9bWOnTzw==",
+      "path": "microsoft.visualstudio.azure.containers.tools.targets/1.9.5",
+      "hashPath": "microsoft.visualstudio.azure.containers.tools.targets.1.9.5.nupkg.sha512"
     },
     "Microsoft.Win32.Primitives/4.3.0": {
       "type": "package",

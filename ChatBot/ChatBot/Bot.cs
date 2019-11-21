@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
@@ -16,12 +17,10 @@ namespace ChatBot
 
     public class Bot
     {
+        private readonly string chatfilename = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("dd-mm-yyyy--hh-mm-ss") + ".chat";
+        private readonly string linkfilename = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".links";
         private readonly TwitchClient client;
         private readonly Dictionary<string, ICommand> commands;
-        // Create filename based on todays date and time to be used to log chat to text file
-        private readonly string chatfilename = "D:\\OneDrive\\Stream\\ChatLogs\\" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".chat";
-        // Create filename based on todays date and time to be used to log links to a text file
-        private readonly string linkfilename = "D:\\OneDrive\\Stream\\ChatLogs\\" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".links";
         private readonly List<string> coders;
         //private readonly List<string> Links = new List<string>();
 
@@ -58,6 +57,7 @@ namespace ChatBot
             coders = GetLiveCoders();
         }
 
+      
         private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
             StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "OK");

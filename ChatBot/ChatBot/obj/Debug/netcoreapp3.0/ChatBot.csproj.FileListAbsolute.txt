@@ -31,7 +31,6 @@ D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.V5.d
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Api.V5.Models.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.Communication.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\TwitchLib.PubSub.dll
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.csprojAssemblyReference.cache
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\AutoMapper.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Google.Api.CommonProtos.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\Google.Api.Gax.dll
@@ -58,3 +57,4 @@ D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\runtimes\win\nativ
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\runtimes\win\lib\netcoreapp2.0\Microsoft.Win32.SystemEvents.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\runtimes\unix\lib\netcoreapp2.0\System.Drawing.Common.dll
 D:\Dev\Stream\ChatBot\ChatBot\ChatBot\bin\Debug\netcoreapp3.0\runtimes\win\lib\netcoreapp2.0\System.Drawing.Common.dll
+D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp3.0\ChatBot.csprojAssemblyReference.cache

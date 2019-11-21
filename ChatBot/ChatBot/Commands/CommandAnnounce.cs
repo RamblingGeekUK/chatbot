@@ -49,15 +49,15 @@ namespace ChatBot.Base
             try
             {
                 Robot robot = new Robot();
+                await robot.GrantApiAccessAsync("Vector-N6T3", "192.168.1.7", "00403161", "wayne@kryptos.co.uk", "n&xAr1eCqbR5a^i8K#d2");
                 await robot.ConnectAsync("Vector-N6T3");
-                await robot.Screen.SetEyeColor(Color.Azure);
-                //await robot.Animation.PlayAsync("GreetAfterLongTime");
 
                 //gain control over the robot by suppressing its personality
                 robot.StartSuppressingPersonality();
                 await robot.WaitTillPersonalitySuppressedAsync();
 
                 //say something
+                await robot.Screen.SetScreenImage("https://static-cdn.jtvnw.net/jtv_user_pictures/e0b2472c-b103-44d3-b132-c618032217ef-profile_image-70x70.png");
                 await robot.Audio.SayTextAsync(message);
                 await robot.DisconnectAsync();
                 return true;
