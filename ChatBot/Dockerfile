@@ -1,18 +1,17 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS base
-WORKDIR /app
+WORKDIR /build
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster-arm32v7 AS build
-WORKDIR /src
-COPY ["ChatBot/ChatBot.csproj", "ChatBot/"]
-RUN dotnet restore "ChatBot/ChatBot.csproj"
-COPY . .
-WORKDIR "/src/ChatBot"
-RUN dotnet build "ChatBot.csproj" -c Release -o /app/build -r linux-arm
+# copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish "ChatBot.csproj" -c Release -o /app/publish -r linux-arm
+#copy & compile the source
+COPY . ./
+RUN dotnet publish -c Release -o out -r linux-arm
 
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ChatBot.dll"]
+# use the arm version of SDK to run (on the pi)
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster-arm32v7
+WORKDIR /build
+COPY --from=build /build/out/ .
+
+CMD ["dotnet", "ChatBot.dll"]
