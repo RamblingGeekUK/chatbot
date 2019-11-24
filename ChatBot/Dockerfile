@@ -7,7 +7,7 @@ COPY ["ChatBot/ChatBot.csproj", "ChatBot/"]
 RUN dotnet restore "ChatBot/ChatBot.csproj"
 COPY . .
 WORKDIR "/src/ChatBot"
-RUN dotnet build "ChatBot.csproj" -c Release -o /app/build
+RUN dotnet build "ChatBot.csproj" -c Release -o /app/build -r linux-arm
 
 FROM build AS publish
 RUN dotnet publish "ChatBot.csproj" -c Release -o /app/publish -r linux-arm
