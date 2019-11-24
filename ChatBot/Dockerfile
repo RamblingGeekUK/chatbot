@@ -10,7 +10,7 @@ WORKDIR "/src/ChatBot"
 RUN dotnet build "ChatBot.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ChatBot.csproj" -c Release -o /app/publish
+RUN dotnet publish "ChatBot.csproj" -c Release -o /app/publish -r linux-arm
 
 FROM base AS final
 WORKDIR /app
