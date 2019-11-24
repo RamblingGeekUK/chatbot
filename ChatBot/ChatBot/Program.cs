@@ -8,7 +8,7 @@ namespace ChatBot
         static void Main()
         { 
             new Bot();
-            Thread.Sleep(Timeout.Infinite);
+            Console.ReadLine();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ChatBot.Base
             client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
 
             var message = $" setting FreePlay to true" ;
-            VectorFreePlayPost(false);
+            //VectorFreePlayPost(false);
 
             this.MessageChat(e.Command.ChatMessage.Channel, message);
             new CommandAnnounce(client).Execute(message, e);
