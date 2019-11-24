@@ -28,33 +28,41 @@ namespace ChatBot
 
         public Bot()
         {
-            ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
-
-            this.client = new TwitchClient();
-            this.client.Initialize(credentials, Settings.Twitch_channel);
-            this.client.OnLog += Client_OnLog;
-            this.client.OnMessageReceived += OnMessageReceived;
-            this.client.OnJoinedChannel += Client_OnJoinedChannel;
-            this.client.OnConnected += Client_OnConnectedAsync;
-            this.client.OnChatCommandReceived += Client_OnChatCommandReceived;
-            this.client.OnRaidNotification += Client_OnRaidNotification;
-            this.client.OnWhisperReceived += Client_OnWhisperReceived;
-            this.client.Connect();
-
-            this.commands = new Dictionary<string, ICommand>
+            try
             {
-                { "alive", new CommandALive(client) },
-                { "vector-say", new CommandSay(client) },
-                { "vector-joke", new CommandTellJoke(client) },
-                { "attention", new CommandAttention(client) },
-                { "lurk", new CommandLurk(client) },
-                { "unlurk", new CommandUnLurk(client) },
-                { "freeplay", new CommandFreePlay(client) },
-                { "commands", new CommandCommands(client) },
-                { "scene", new CommandScene(client) },
-            };
+                ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
 
-            coders = GetLiveCoders();
+                this.client = new TwitchClient();
+                this.client.Initialize(credentials, Settings.Twitch_channel);
+                this.client.OnLog += Client_OnLog;
+                this.client.OnMessageReceived += OnMessageReceived;
+                this.client.OnJoinedChannel += Client_OnJoinedChannel;
+                this.client.OnConnected += Client_OnConnectedAsync;
+                this.client.OnChatCommandReceived += Client_OnChatCommandReceived;
+                this.client.OnRaidNotification += Client_OnRaidNotification;
+                this.client.OnWhisperReceived += Client_OnWhisperReceived;
+                this.client.Connect();
+
+                this.commands = new Dictionary<string, ICommand>
+                {
+                    { "alive", new CommandALive(client) },
+                    { "vector-say", new CommandSay(client) },
+                    { "vector-joke", new CommandTellJoke(client) },
+                    { "attention", new CommandAttention(client) },
+                    { "lurk", new CommandLurk(client) },
+                    { "unlurk", new CommandUnLurk(client) },
+                    { "freeplay", new CommandFreePlay(client) },
+                    { "commands", new CommandCommands(client) },
+                    { "scene", new CommandScene(client) },
+                };
+
+                coders = GetLiveCoders();
+            }
+            catch (Exception)
+            {
+                System.Console.WriteLine(Settings.Twitch_botusername);
+                System.Console.WriteLine(Settings.Twitch_token);
+            }
         }
 
       
