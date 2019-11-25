@@ -30,6 +30,7 @@ namespace ChatBot
         {
             try
             {
+                StatusInfo($"Assembly Version : ", GetAssemblyVersion());
                 ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
 
                 this.client = new TwitchClient();
@@ -202,6 +203,10 @@ namespace ChatBot
                 Console.WriteLine("Call failed");
                 return new List<string>();
             }
+        }
+        public string GetAssemblyVersion()
+        {
+            return GetType().Assembly.GetName().Version.ToString();
         }
     }
 }
