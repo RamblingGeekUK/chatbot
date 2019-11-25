@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -30,7 +31,6 @@ namespace ChatBot
         {
             try
             {
-                StatusInfo($"Assembly Version : ", GetAssemblyVersion());
                 ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
 
                 this.client = new TwitchClient();
@@ -69,7 +69,7 @@ namespace ChatBot
       
         private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
-            StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "OK");
+            StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "ok");
         }
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
@@ -141,12 +141,24 @@ namespace ChatBot
         }
         private void Client_OnConnectedAsync(object sender, OnConnectedArgs e)
         {
-            StatusInfo($"Connected to Channel ({e.AutoJoinChannel})", "OK");
+            IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());
+           
+            StatusInfo($"Assembly Version {GetAssemblyVersion().ToString()}", "info");
+            
+            foreach(var item in heserver.AddressList)
+            {
+                StatusInfo($"IP Address {item.ToString()}", "info");
+            }
+            StatusInfo($"Connected to Channel ({e.AutoJoinChannel})", "ok");
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
-        {           
-            StatusInfo("Bot Joined Chat", "OK");
-            new CommandAnnounce(client).Execute("Hello World! Vector is Alive!", e);
+        {
+            string vtalktext = "Hello World! Vector is Alive!";
+
+            StatusInfo("Bot Joined Chat", "ok");
+            new CommandAnnounce(client).Execute(vtalktext, e);
+            StatusInfo($"{vtalktext}", "info");
+
         }
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
         {
@@ -158,25 +170,29 @@ namespace ChatBot
 
         public void StatusInfo(string message, string status) 
         {
+
+            string statusmessage = $"[ {status.PadRight(5)}] : {message}";
+
             switch (status.ToLower())
             {
                 case "ok":
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"{message} : {status}");
+                    Console.WriteLine(statusmessage);
                     Console.ForegroundColor = ConsoleColor.Gray;
                     break;
                 case "fail":
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{message} : {status}");
+                    Console.WriteLine(statusmessage);
                     Console.ForegroundColor = ConsoleColor.Gray;
                     break;
                 case "info":
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"{message} : {status}");
+                    Console.WriteLine(statusmessage);
                     Console.ForegroundColor = ConsoleColor.Gray;
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine(statusmessage);
                     break;
             }
         }
