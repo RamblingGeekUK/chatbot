@@ -13,11 +13,19 @@ namespace ChatBot.Base
         
         public void Execute(OnChatCommandReceivedArgs e)
         {
-            string message = e.Command.ChatMessage.Message;
-            message = message.Substring(11, message.Length - 11);
-            Console.WriteLine("Vector should say the following: " + message);
-            client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
-            new CommandAnnounce(client).Execute(message, e);
+            try
+            {
+                string message = e.Command.ChatMessage.Message.Remove(0, e.Command.CommandText.Length + 2);
+                Helpers.StatusInfo($"{message}", "vector");
+                client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
+                new CommandAnnounce(client).Execute(message, e);
+            }
+            catch (Exception)
+            {
+                client.SendMessage(e.Command.ChatMessage.Channel, "Looks like you didn't give vector anything to say, try again.");
+                Helpers.StatusInfo($"Vector was asked to say something but no text given", "fail");
+            }
+          
         }
     }
 }

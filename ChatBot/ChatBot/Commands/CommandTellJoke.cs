@@ -20,6 +20,7 @@ namespace ChatBot.Base
 
             this.MessageChat(e.Command.ChatMessage.Channel, joke);
             new CommandAnnounce(client).Execute(joke, e);
+            Helpers.StatusInfo($"{joke}", "vector");
         }
 
         private string SelectJoke()

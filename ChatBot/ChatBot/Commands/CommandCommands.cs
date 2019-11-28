@@ -21,15 +21,15 @@ namespace ChatBot.Base
 
             var msg = new List<string>
             {
-                "!Alive",
-                "!Announce",
-                "!Attention",
-                "!Commands",
-                "!FreePlay",
-                "!Lurk",
-                "!Vector-Say",
-                "!Vector-Joke",
-                "!Unlunk"
+                "> !Alive",
+                "> !Announce",
+                "> !Attention",
+                "> !Commands",
+                "> !FreePlay",
+                "> !Lurk",
+                "> !Vector-Say your text",
+                "> !Vector-Joke",
+                "> !Unlunk"
             };
 
             foreach (var message in msg)

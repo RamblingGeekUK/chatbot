@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Net.Http;
-using System.Text;
+﻿using System;
 using TwitchLib.Client;
+
 
 namespace ChatBot.Base
 {
@@ -19,7 +17,10 @@ namespace ChatBot.Base
 
         protected void MessageChat(string channel, string message)
         {
-            Console.WriteLine($"CommandBase MessageChat : {message}");
+
+            //ChatBot.
+            //Console.WriteLine($"CommandBase MessageChat : {message}");
+            
             this.client.SendMessage(channel, message);
         }        
     }

@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
@@ -16,14 +15,13 @@ using TwitchLib.Client.Models;
 namespace ChatBot
 {
 
-    public class Bot
+    public partial class Bot
     {
         private readonly string chatfilename = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("dd-mm-yyyy--hh-mm-ss") + ".chat";
         private readonly string linkfilename = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".links";
         private readonly TwitchClient client;
         private readonly Dictionary<string, ICommand> commands;
         private readonly List<string> coders;
-        //private readonly List<string> Links = new List<string>();
 
         public Boolean VectorAlive = false;
 
@@ -48,6 +46,7 @@ namespace ChatBot
                 {
                     { "alive", new CommandALive(client) },
                     { "vector-say", new CommandSay(client) },
+                    { "vs", new CommandSay(client) },
                     { "vector-joke", new CommandTellJoke(client) },
                     { "attention", new CommandAttention(client) },
                     { "lurk", new CommandLurk(client) },
@@ -69,7 +68,7 @@ namespace ChatBot
       
         private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
-            StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "ok");
+            Helpers.StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "ok");
         }
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
@@ -94,7 +93,7 @@ namespace ChatBot
                 {
                     using (writer = File.AppendText(linkfilename))
                     {
-                        StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}","info");
+                        Helpers.StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}","info");
                         writer.WriteAsync($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
                     }
                 }
@@ -102,7 +101,7 @@ namespace ChatBot
                 {
                     using (writer = File.CreateText(linkfilename))
                     {
-                        StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
+                        Helpers.StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
                         writer.WriteAsync($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
                     }
                 }
@@ -142,22 +141,22 @@ namespace ChatBot
         private void Client_OnConnectedAsync(object sender, OnConnectedArgs e)
         {
             IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());
-           
-            StatusInfo($"Assembly Version {GetAssemblyVersion().ToString()}", "info");
+
+            Helpers.StatusInfo($"Assembly Version {GetType().Assembly.GetName().Version.ToString()}", "info");
             
             foreach(var item in heserver.AddressList)
             {
-                StatusInfo($"IP Address {item.ToString()}", "info");
+                Helpers.StatusInfo($"IP Address {item.ToString()}", "info");
             }
-            StatusInfo($"Connected to Channel ({e.AutoJoinChannel})", "ok");
+            Helpers.StatusInfo($"Connected to Channel ({e.AutoJoinChannel})", "ok");
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
             string vtalktext = "Hello World! Vector is Alive!";
-
-            StatusInfo("Bot Joined Chat", "ok");
+           
+            Helpers.StatusInfo("Bot Joined Chat", "ok");
             new CommandAnnounce(client).Execute(vtalktext, e);
-            StatusInfo($"{vtalktext}", "info");
+            Helpers.StatusInfo($"{vtalktext}", "vector");
 
         }
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
@@ -168,34 +167,7 @@ namespace ChatBot
             this.commands[e.Command.CommandText.ToLower()].Execute(e);
         }
 
-        public void StatusInfo(string message, string status) 
-        {
-
-            string statusmessage = $"[ {status.PadRight(5)}] : {message}";
-
-            switch (status.ToLower())
-            {
-                case "ok":
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(statusmessage);
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    break;
-                case "fail":
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(statusmessage);
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    break;
-                case "info":
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(statusmessage);
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    break;
-                default:
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.WriteLine(statusmessage);
-                    break;
-            }
-        }
+      
 
         public List<string> GetLiveCoders()
         {
@@ -220,9 +192,6 @@ namespace ChatBot
                 return new List<string>();
             }
         }
-        public string GetAssemblyVersion()
-        {
-            return GetType().Assembly.GetName().Version.ToString();
-        }
+      
     }
 }
