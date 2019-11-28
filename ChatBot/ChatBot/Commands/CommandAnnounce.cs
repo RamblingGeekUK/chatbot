@@ -64,6 +64,7 @@ namespace ChatBot.Base
             }
             catch
             {
+                Helpers.StatusInfo($"Connecting to Vector failed!", "fail");
                 return false;
             }
         }
