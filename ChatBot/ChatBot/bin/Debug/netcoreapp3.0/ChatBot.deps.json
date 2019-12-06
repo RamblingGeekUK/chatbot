@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v3.0": {
       "ChatBot/1.0.0": {
         "dependencies": {
+          "Grpc.Tools": "2.25.0",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.9.5",
           "Newtonsoft.Json": "12.0.3",
           "TwitchLib": "3.0.1",
@@ -194,6 +195,7 @@
           }
         }
       },
+      "Grpc.Tools/2.25.0": {},
       "Microsoft.CSharp/4.5.0": {},
       "Microsoft.Extensions.DependencyInjection.Abstractions/2.0.0": {
         "runtime": {
@@ -1318,6 +1320,13 @@
       "sha512": "sha512-Zryx01RkLPMV4S2k2prKVgAJZR8goi09cZS52SbFs7Xak977WxjqrHTzmD3miCUo+aj/AnVDbYnauUe8ePOGHw==",
       "path": "grpc.core.api/1.20.0",
       "hashPath": "grpc.core.api.1.20.0.nupkg.sha512"
+    },
+    "Grpc.Tools/2.25.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2cBaz50+xevL7rysidDA/dA3lyAw9j+5npJtiqccsuix1I/f04TSZvdf2w1wbaQX/B+PzjMAZICnYLghpg4dfQ==",
+      "path": "grpc.tools/2.25.0",
+      "hashPath": "grpc.tools.2.25.0.nupkg.sha512"
     },
     "Microsoft.CSharp/4.5.0": {
       "type": "package",
