@@ -181,7 +181,7 @@ namespace ChatBot
                 client.DefaultRequestHeaders.Add("Accept", "application/vnd.twitchtv.v5+json");
 
                 var result = client.GetStringAsync(url).Result;
-                List<TwitchLiveCoders> coders = new List<TwitchLiveCoders>();
+                //List<TwitchLiveCoders> coders = new List<TwitchLiveCoders>();
                 var team = JsonConvert.DeserializeObject<TwitchLiveCoders>(result);
 
                 return new List<string>(team.users.Select(c => c.display_name));
