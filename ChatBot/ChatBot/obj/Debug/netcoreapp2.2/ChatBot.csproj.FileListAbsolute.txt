@@ -1,3 +1,0 @@
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp2.2\ChatBot.csprojAssemblyReference.cache
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp2.2\ChatBot.AssemblyInfoInputs.cache
-D:\Dev\Stream\ChatBot\ChatBot\ChatBot\obj\Debug\netcoreapp2.2\ChatBot.AssemblyInfo.cs
