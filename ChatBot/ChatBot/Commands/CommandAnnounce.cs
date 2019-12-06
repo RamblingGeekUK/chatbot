@@ -46,8 +46,8 @@ namespace ChatBot.Base
              
         public async Task<bool> Vector(string message)
         {
-            try
-            {
+            //try
+            //{
                 Robot robot = new Robot();
                 // Secrets live here for the moment - do not show. 
                 await robot.GrantApiAccessAsync("Vector-N6T3", "192.168.1.16", "00403161", "wayne@kryptos.co.uk", "n&xAr1eCqbR5a^i8K#d2");
@@ -61,12 +61,12 @@ namespace ChatBot.Base
                 await robot.Audio.SayTextAsync(message);
                 await robot.DisconnectAsync();
                 return true;
-            }
-            catch
-            {
-                Helpers.StatusInfo($"Connecting to Vector failed!", "fail");
-                return false;
-            }
+            //}
+            //catch
+            //{
+            //    Helpers.StatusInfo($"Connecting to Vector failed!", "fail");
+            //    return false;
+            //}
         }
     }
 }
