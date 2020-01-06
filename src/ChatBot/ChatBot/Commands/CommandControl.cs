@@ -29,8 +29,8 @@ namespace ChatBot.Base
             {
                 Robot robot = new Robot();
                 // Secrets live here for the moment - do not show. 
-                await robot.GrantApiAccessAsync("Vector-N6T3", "192.168.1.7", "00403161", "wayne@kryptos.co.uk", "n&xAr1eCqbR5a^i8K#d2");
-                await robot.ConnectAsync("Vector-N6T3");
+                await robot.GrantApiAccessAsync(Settings.Vector_Name, Settings.Vector_IP, Settings.Vector_Serial, Settings.Vector_Username, Settings.Vector_Password);
+                await robot.ConnectAsync(Settings.Vector_Name);
 
                 //gain control over the robot by suppressing its personality
                 robot.StartSuppressingPersonality();

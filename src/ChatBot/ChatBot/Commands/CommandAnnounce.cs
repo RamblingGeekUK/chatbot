@@ -40,18 +40,18 @@ namespace ChatBot.Base
 
         public async void Execute(string message, OnJoinedChannelArgs e)
         {
-            //this.MessageChat(e.Channel, message);
-            await this.Vector(message);
+                //this.MessageChat(e.Channel, message);
+                await this.Vector(message);
         }
              
         public async Task<bool> Vector(string message)
         {
-            //try
-            //{
+            try
+            {
                 Robot robot = new Robot();
                 // Secrets live here for the moment - do not show. 
-                await robot.GrantApiAccessAsync("Vector-N6T3", "192.168.1.16", "00403161", "wayne@kryptos.co.uk", "n&xAr1eCqbR5a^i8K#d2");
-                await robot.ConnectAsync("Vector-N6T3");
+                await robot.GrantApiAccessAsync(Settings.Vector_Name, Settings.Vector_IP, Settings.Vector_Serial, Settings.Vector_Username, Settings.Vector_Password);
+                await robot.ConnectAsync(Settings.Vector_Name);
 
                 //gain control over the robot by suppressing its personality
                 robot.StartSuppressingPersonality();
@@ -61,12 +61,12 @@ namespace ChatBot.Base
                 await robot.Audio.SayTextAsync(message);
                 await robot.DisconnectAsync();
                 return true;
-            //}
-            //catch
-            //{
-            //    Helpers.StatusInfo($"Connecting to Vector failed!", "fail");
-            //    return false;
-            //}
+            }
+            catch
+            {
+                Helpers.StatusInfo($"Connecting to Vector failed!", "fail");
+                return false;
+            }
         }
     }
 }

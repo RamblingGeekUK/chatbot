@@ -1,29 +1,35 @@
-﻿using ChatBot.Base;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+
+using ChatBot.Base;
+using Newtonsoft.Json;
+
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 
+using TwitchLib.Api;
+using TwitchLib.Api.Services;
+using TwitchLib.Api.Services.Events;
+using TwitchLib.Api.Services.Events.LiveStreamMonitor;
 
 namespace ChatBot
 {
 
     public partial class Bot
     {
-        private readonly string chatfilename = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("dd-mm-yyyy--hh-mm-ss") + ".chat";
-        private readonly string linkfilename = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("dd-MM-yyyy--HH-mm-ss") + ".links";
+        private readonly string streampost = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("yyyy-dd-MM-hh-mm-ss") + ".md";
         private readonly TwitchClient client;
         private readonly Dictionary<string, ICommand> commands;
         private readonly List<string> coders;
 
-        public Boolean VectorAlive = false;
+        private LiveStreamMonitorService Monitor;
+     
 
         public Bot()
         {
@@ -40,7 +46,7 @@ namespace ChatBot
                 this.client.OnChatCommandReceived += Client_OnChatCommandReceived;
                 this.client.OnRaidNotification += Client_OnRaidNotification;
                 this.client.OnWhisperReceived += Client_OnWhisperReceived;
-                this.client.Connect();
+                this.client.Connect();           
 
                 this.commands = new Dictionary<string, ICommand>
                 {
@@ -54,6 +60,8 @@ namespace ChatBot
                     { "freeplay", new CommandFreePlay(client) },
                     { "commands", new CommandCommands(client) },
                     { "scene", new CommandScene(client) },
+                    { "vector-bat", new CommandBat(client) },
+                    { "vector-vol", new CommandVol(client) },
                 };
 
                 coders = GetLiveCoders();
@@ -85,42 +93,11 @@ namespace ChatBot
                 coders.Remove(e.ChatMessage.DisplayName);
             }
 
-            StreamWriter writer;
-
+            BuildStreamPost($"{DateTime.UtcNow.ToString()},{e.ChatMessage.UserType},{e.ChatMessage.DisplayName},{e.ChatMessage.Username},{e.ChatMessage.IsSubscriber.ToString()},{e.ChatMessage.Message}" + Environment.NewLine);
             foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
             {
-                if (File.Exists(linkfilename) == true)
-                {
-                    using (writer = File.AppendText(linkfilename))
-                    {
-                        Helpers.StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}","info");
-                        writer.WriteAsync($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
-                    }
-                }
-                else
-                {
-                    using (writer = File.CreateText(linkfilename))
-                    {
-                        Helpers.StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
-                        writer.WriteAsync($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
-                    }
-                }
-            }
-
-
-            if (File.Exists(chatfilename) == true)
-            {
-                using (writer = File.AppendText(chatfilename))
-                {
-                    writer.WriteAsync($"{DateTime.UtcNow.ToString()},{e.ChatMessage.UserType},{e.ChatMessage.DisplayName},{e.ChatMessage.Username},{e.ChatMessage.IsSubscriber.ToString()},{e.ChatMessage.Message}" + Environment.NewLine);
-                }
-            }
-            else
-            {
-                using (writer = File.CreateText(chatfilename))
-                {
-                    writer.WriteAsync($"{DateTime.UtcNow.ToString()},{e.ChatMessage.UserType},{e.ChatMessage.DisplayName},{e.ChatMessage.Username},{e.ChatMessage.IsSubscriber.ToString()},{e.ChatMessage.Message}" + Environment.NewLine);
-                }
+                Helpers.StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
+                BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);  
             }
         }
         private void Client_OnRaidNotification(object sender, OnRaidNotificationArgs e)
@@ -142,22 +119,25 @@ namespace ChatBot
         {
             IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());
 
-            Helpers.StatusInfo($"Assembly Version {GetType().Assembly.GetName().Version.ToString()}", "info");
+            Helpers.StatusInfo($"Assembly Version : {GetType().Assembly.GetName().Version.ToString()}", "info");
             
             foreach(var item in heserver.AddressList)
             {
-                Helpers.StatusInfo($"IP Address {item.ToString()}", "info");
+                Helpers.StatusInfo($"Local IP Address : {item.ToString()}", "info");
             }
-            Helpers.StatusInfo($"Connected to Channel ({e.AutoJoinChannel})", "ok");
+            Helpers.StatusInfo($"Connected to Twitch Channel : ({e.AutoJoinChannel})", "ok");
+            Helpers.StatusInfo($"Vector IP : {Settings.Vector_IP}","info");
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
-            string vtalktext = "Hello World! Vector is Alive!";
+            string vtalktext = "Hi, I have joined you all in chat, you can ask me to say something by entering !vector-say Hello in chat";
            
-            Helpers.StatusInfo("Bot Joined Chat", "ok");
+            Helpers.StatusInfo("TwitchBot (J5Bot) Joined Twitch Chat", "ok");
+            client.SendMessage(e.Channel, "TwitchBot (J5Bot) Joined Twitch Chat");
+            client.SendMessage(e.Channel, "rambli4Vector is here.");
             new CommandAnnounce(client).Execute(vtalktext, e);
             Helpers.StatusInfo($"{vtalktext}", "vector");
-
+     
         }
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
         {
@@ -167,7 +147,31 @@ namespace ChatBot
             this.commands[e.Command.CommandText.ToLower()].Execute(e);
         }
 
-      
+        private void BuildStreamPost(string message)
+        {
+            StreamWriter writer;
+
+            if (File.Exists(streampost) == true)
+            {
+                using (writer = File.AppendText(streampost))
+                {
+                    writer.WriteAsync(message);
+                }
+            }
+            else
+            {
+                using (writer = File.CreateText(streampost))
+                {
+                    writer.WriteAsync("---" + Environment.NewLine);
+                    writer.WriteAsync("layout: post" + Environment.NewLine);
+                    writer.WriteAsync($"title: <<StreamTitle>>" + Environment.NewLine);
+                    writer.WriteAsync("subtitle: because why not" + Environment.NewLine);
+                    writer.WriteAsync($"date: {DateTime.UtcNow.ToString("yyyy-MM-dd hh:mm:ss")}" + Environment.NewLine);
+                    writer.WriteAsync("tags: new, first, markdown" + Environment.NewLine);
+                    writer.WriteAsync("---" + Environment.NewLine);
+                }
+            }
+        }
 
         public List<string> GetLiveCoders()
         {
@@ -192,6 +196,8 @@ namespace ChatBot
                 return new List<string>();
             }
         }
-      
+
+        //                bool isStreaming = await api.V5.Streams.BroadcasterOnlineAsync(Settings.Twitch_channel);
+
     }
 }
