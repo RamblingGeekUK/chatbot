@@ -28,9 +28,6 @@ namespace ChatBot
         private readonly Dictionary<string, ICommand> commands;
         private readonly List<string> coders;
 
-        private LiveStreamMonitorService Monitor;
-     
-
         public Bot()
         {
             try
@@ -196,8 +193,5 @@ namespace ChatBot
                 return new List<string>();
             }
         }
-
-        //                bool isStreaming = await api.V5.Streams.BroadcasterOnlineAsync(Settings.Twitch_channel);
-
     }
 }
