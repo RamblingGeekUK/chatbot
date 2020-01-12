@@ -10,7 +10,7 @@ namespace ChatBot.Base
         {
         }
 
-    public void Execute(OnChatCommandReceivedArgs e)
+    public void ExecuteAsync(OnChatCommandReceivedArgs e)
         {
             client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
             var message = string.Format("{0} has asked you to stop and please check chat", e.Command.ChatMessage.Username);

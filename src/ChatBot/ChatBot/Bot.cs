@@ -54,11 +54,11 @@ namespace ChatBot
                     { "attention", new CommandAttention(client) },
                     { "lurk", new CommandLurk(client) },
                     { "unlurk", new CommandUnLurk(client) },
-                    { "freeplay", new CommandFreePlay(client) },
                     { "commands", new CommandCommands(client) },
                     { "scene", new CommandScene(client) },
                     { "vector-bat", new CommandBat(client) },
                     { "vector-vol", new CommandVol(client) },
+                    { "vector-move", new CommandMove(client) }
                 };
 
                 coders = GetLiveCoders();
@@ -127,7 +127,7 @@ namespace ChatBot
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
-            string vtalktext = "Hi, I have joined you all in chat, you can ask me to say something by entering !vector-say Hello in chat";
+            string vtalktext = "Hi, I'm here!";
            
             Helpers.StatusInfo("TwitchBot (J5Bot) Joined Twitch Chat", "ok");
             client.SendMessage(e.Channel, "TwitchBot (J5Bot) Joined Twitch Chat");
@@ -141,7 +141,7 @@ namespace ChatBot
             if (this.commands.ContainsKey(e.Command.CommandText.ToLower()) == false)
                 return;
 
-            this.commands[e.Command.CommandText.ToLower()].Execute(e);
+            this.commands[e.Command.CommandText.ToLower()].ExecuteAsync(e);
         }
 
         private void BuildStreamPost(string message)

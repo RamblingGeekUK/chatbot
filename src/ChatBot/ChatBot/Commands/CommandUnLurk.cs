@@ -13,7 +13,7 @@ namespace ChatBot.Base
         {
         }
 
-        public void Execute(OnChatCommandReceivedArgs e)
+        public void ExecuteAsync(OnChatCommandReceivedArgs e)
         {
             client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
             var message = $"Welcome back { e.Command.ChatMessage.Username }, happy to have you back in chat!";

@@ -1,36 +1,31 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using Vector;
+using System.Threading.Tasks;
 
 namespace ChatBot.Base
 {
-    public class CommandControl : CommandBase, ICommand
+    public class CommandMove : CommandBase, ICommand
     {
-        public CommandControl(TwitchClient client)
+        public CommandMove(TwitchClient client)
             : base(client)
         {
         }
 
-        public async void Execute(string message, OnChatCommandReceivedArgs e)
+        public void ExecuteAsync(OnChatCommandReceivedArgs e)
         {
-            //this.MessageChat(e.Command.ChatMessage.BotUsername, message);
-            await this.Vector();
+            _ = Vector(e);
         }
 
-        public void Execute(OnChatCommandReceivedArgs e)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<bool> Vector()
+        public async Task<bool> Vector(OnChatCommandReceivedArgs e)
         {
             try
             {
                 Robot robot = new Robot();
-                // Secrets live here for the moment - do not show. 
                 await robot.GrantApiAccessAsync(Settings.Vector_Name, Settings.Vector_IP, Settings.Vector_Serial, Settings.Vector_Username, Settings.Vector_Password);
                 await robot.ConnectAsync(Settings.Vector_Name);
+
 
                 //gain control over the robot by suppressing its personality
                 robot.StartSuppressingPersonality();
@@ -60,12 +55,12 @@ namespace ChatBot.Base
                 await robot.DisconnectAsync();
                 return true;
             }
-            catch
+            catch (Exception)
             {
+                client.SendMessage(e.Command.ChatMessage.Channel, "Looks like you didn't give vector anything to say, try again.");
+                Helpers.StatusInfo($"Vector was asked to say something but no text was given", "fail");
                 return false;
             }
         }
-
-
     }
 }

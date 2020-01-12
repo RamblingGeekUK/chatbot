@@ -12,7 +12,7 @@ namespace ChatBot.Base
         {
         }
         
-        public void Execute(OnChatCommandReceivedArgs e)
+        public void ExecuteAsync(OnChatCommandReceivedArgs e)
         {
             try
             {

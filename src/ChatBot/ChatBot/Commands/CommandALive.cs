@@ -10,7 +10,7 @@ namespace ChatBot.Base
         {
         }
 
-        public void Execute(OnChatCommandReceivedArgs e)
+        public void ExecuteAsync(OnChatCommandReceivedArgs e)
         {
             this.MessageChat(e.Command.ChatMessage.Channel, " is ALIVE!");
         }

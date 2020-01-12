@@ -12,7 +12,7 @@ namespace ChatBot.Base
         {
         }
 
-        public void Execute(OnChatCommandReceivedArgs e)
+        public void ExecuteAsync(OnChatCommandReceivedArgs e)
         {
             _ = Vector(e);
         }
@@ -29,10 +29,8 @@ namespace ChatBot.Base
                 robot.StartSuppressingPersonality();
                 await robot.WaitTillPersonalitySuppressedAsync();
 
-                BatteryState x = await robot.GetBatteryStateAsync();
-                
+                await robot.Audio.SetMasterVolumeAsync(1);  //lowest volume setting (1-5)
 
-                client.SendMessage(e.Command.ChatMessage.Channel, $"Battery State : {x.BatteryLevel.ToString()}, On Platform : {x.IsOnChargerPlatform.ToString()}, Voltage : {x.BatteryVolts.ToString()}, Charging : {x.IsCharging.ToString()}");
                 //say something
                 await robot.Audio.SayTextAsync("all done");
 

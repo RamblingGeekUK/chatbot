@@ -13,7 +13,7 @@ namespace ChatBot.Base
         {
         }
 
-        public void Execute(OnChatCommandReceivedArgs e)
+        public void ExecuteAsync(OnChatCommandReceivedArgs e)
         {
             string message = e.Command.ChatMessage.Message;
             message = message[message.LastIndexOf(" ")..];
