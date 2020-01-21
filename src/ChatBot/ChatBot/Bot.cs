@@ -78,20 +78,11 @@ namespace ChatBot
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            if (e.ChatMessage.IsBroadcaster)
-            {
-                //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
-                //new CommandAnnounce(client).Execute(message, e);
-            }
-            else if (coders.Contains(e.ChatMessage.DisplayName))
+            if (coders.Contains(e.ChatMessage.DisplayName) && coders.Contains(e.ChatMessage.DisplayName) =e.ChatMessage.IsMe)
             {
                 _ = ("!so " + e.ChatMessage.DisplayName);
                 new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
                 coders.Remove(e.ChatMessage.DisplayName);
-            }
-            else if (e.ChatMessage.DisplayName == "cmjchrisjones")
-            {
-                // Make Vector pronouce Chris Name.... 
             }
 
             BuildStreamPost($"{DateTime.UtcNow.ToString()},{e.ChatMessage.UserType},{e.ChatMessage.DisplayName},{e.ChatMessage.Username},{e.ChatMessage.IsSubscriber.ToString()},{e.ChatMessage.Message}" + Environment.NewLine);

@@ -58,14 +58,14 @@ namespace ChatBot.Base
                 await robot.WaitTillPersonalitySuppressedAsync();
 
                 //say something
-                await robot.Audio.SetMasterVolumeAsync(5);
+                await robot.Audio.SetMasterVolumeAsync(1);
                 await robot.Audio.SayTextAsync(message);
                 await robot.DisconnectAsync();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
-                Helpers.StatusInfo($"Connecting to Vector failed!", "fail");
+                Helpers.StatusInfo($"Connecting to Vector failed! {e.Message}", "fail");
 
                 return false;
             }
