@@ -17,6 +17,7 @@ using TwitchLib.Api;
 using TwitchLib.Api.Services;
 using TwitchLib.Api.Services.Events;
 using TwitchLib.Api.Services.Events.LiveStreamMonitor;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace ChatBot
 {
@@ -27,6 +28,9 @@ namespace ChatBot
         private readonly TwitchClient client;
         private readonly Dictionary<string, ICommand> commands;
         private readonly List<string> coders;
+
+     
+
 
         public Bot()
         {
@@ -62,6 +66,8 @@ namespace ChatBot
                 };
 
                 coders = GetLiveCoders();
+
+
             }
             catch (Exception)
             {
@@ -78,7 +84,7 @@ namespace ChatBot
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            if (coders.Contains(e.ChatMessage.DisplayName) && coders.Contains(e.ChatMessage.DisplayName) =e.ChatMessage.IsMe)
+            if (!e.ChatMessage.IsBroadcaster)
             {
                 _ = ("!so " + e.ChatMessage.DisplayName);
                 new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
@@ -91,7 +97,18 @@ namespace ChatBot
                 Helpers.StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
                 BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);  
             }
+
+            var connection = new HubConnectionBuilder()
+            .WithUrl("https://localhost:5001/chathub")
+            .Build();
+            connection.StartAsync().Wait();
+
+            connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+
         }
+
+       
+
         private void Client_OnRaidNotification(object sender, OnRaidNotificationArgs e)
         {
             // Say thank you for the raid 3 times.
