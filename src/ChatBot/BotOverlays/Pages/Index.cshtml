@@ -1,30 +1,24 @@
 ﻿@page
-<div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-2">User</div>
-        <div class="col-4"><input type="text" id="userInput" /></div>
-    </div>
-    <div class="row">
-        <div class="col-2">Message</div>
-        <div class="col-4"><input type="text" id="messageInput" /></div>
-    </div>
-    <div class="row">&nbsp;</div>
+@*<div class="alert alert-success" role="alert">
+        <div id="chatmessage"></div>
+        <div id="chatusername"></div>
+    </div>*@
+
     <div class="row">
         <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
+            @*<ul id="messagesList"></ul>*@
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <hr />
+
+    <div class="toast" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
+        <div class="toast-header">
+            <div id="chatusername"></div>
+        </div>
+        <div class="toast-body">
+            <div id="chatmessage"></div>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-6">
-        <ul id="messagesList"></ul>
-    </div>
-</div>
+
+
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>

@@ -59,11 +59,9 @@ namespace BotOverlays
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/chathub");
-            });
+          
 
         }
     }

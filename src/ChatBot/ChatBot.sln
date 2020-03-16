@@ -5,9 +5,12 @@ VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBot", "ChatBot\ChatBot.csproj", "{1006DA92-4A98-4564-8FFC-71C196C1B72B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotOverlays", "BotOverlays\BotOverlays.csproj", "{32B1C8A8-525B-43FC-99A1-9875C7146A24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotOverlays", "BotOverlays\BotOverlays.csproj", "{32B1C8A8-525B-43FC-99A1-9875C7146A24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientConsole", "ClientConsole\ClientConsole.csproj", "{9CD91FFF-B28C-40EC-8E37-12E1DDF0309D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientConsole", "ClientConsole\ClientConsole.csproj", "{9CD91FFF-B28C-40EC-8E37-12E1DDF0309D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1006DA92-4A98-4564-8FFC-71C196C1B72B} = {1006DA92-4A98-4564-8FFC-71C196C1B72B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
