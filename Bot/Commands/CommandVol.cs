@@ -29,10 +29,12 @@ namespace ChatBot.Base
                 robot.StartSuppressingPersonality();
                 await robot.WaitTillPersonalitySuppressedAsync();
 
-                await robot.Audio.SetMasterVolumeAsync(1);  //lowest volume setting (1-5)
+                await robot.Audio.SetMasterVolumeAsync(5);  //lowest volume setting (1-5)
 
                 //say something
                 await robot.Audio.SayTextAsync("all done");
+
+                robot.StopSuppressingPersonality();
 
                 //disconnect
                 await robot.DisconnectAsync();

@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChatBot\ChatBot.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="wwwroot\js\Chat.js">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>

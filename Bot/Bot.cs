@@ -62,7 +62,8 @@ namespace ChatBot
                     { "scene", new CommandScene(client) },
                     { "vector-bat", new CommandBat(client) },
                     { "vector-vol", new CommandVol(client) },
-                    { "vector-move", new CommandMove(client) }
+                    { "vector-move", new CommandMove(client) },
+                    { "vector-localtime", new CommandLocalTime(client) }
                 };
 
                 coders = GetLiveCoders();

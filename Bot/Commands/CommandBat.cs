@@ -29,6 +29,8 @@ namespace ChatBot.Base
                 robot.StartSuppressingPersonality();
                 await robot.WaitTillPersonalitySuppressedAsync();
 
+ 
+
                 BatteryState x = await robot.GetBatteryStateAsync();
 
                 // Vector is considered fully - charged above 4.1 volts.At 3.6V, the robot is approaching low charge.
@@ -37,9 +39,27 @@ namespace ChatBot.Base
                 // Nominal = 2
                 // Full = 3: only be achieved when Vector is on the charger.
 
+              
+
+                switch (x.BatteryLevel.ToString().ToLower())
+                {
+                    case "nominal":
+                        await robot.Audio.SayTextAsync("My Battery is nominal");
+                        break;
+                    case "full":
+                        await robot.Audio.SayTextAsync("My Battery is Full! Lets play!");
+                        break;
+                    case "low":
+                        await robot.Audio.SayTextAsync("My Battery is low, play time will be over soon... sad panda");
+                        break;
+                    default:
+                        break;
+                }
+
+
                 client.SendMessage(e.Command.ChatMessage.Channel, $"Battery State : {x.BatteryLevel.ToString()}, On Platform : {x.IsOnChargerPlatform.ToString()}, Voltage : {x.BatteryVolts.ToString()}, Charging : {x.IsCharging.ToString()}");
-                //say something
-                await robot.Audio.SayTextAsync("all done");
+                
+                robot.StopSuppressingPersonality();
 
                 //disconnect
                 await robot.DisconnectAsync();

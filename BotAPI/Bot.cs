@@ -9,7 +9,7 @@ namespace BotAPI
     public class Bot
     {
         private readonly TwitchClient client;
-        private readonly List<string> coders;
+        //private readonly List<string> coders;
 
         public Bot()
             {
