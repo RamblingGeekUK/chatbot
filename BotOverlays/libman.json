@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "@microsoft/signalr@latest",
+      "destination": "wwwroot/js/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
+    },
+    {
+      "library": "toastr@2.1.4",
+      "destination": "wwwroot/js/",
+      "files": [
+        "toastr.js",
+        "build/toastr.min.js",
+        "build/toastr.min.css",
+        "build/toastr.js.map",
+        "build/toastr.css"
+      ]
+    }
+  ]
+}
