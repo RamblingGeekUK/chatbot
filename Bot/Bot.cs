@@ -99,12 +99,12 @@ namespace ChatBot
                 BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);  
             }
 
-            var connection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:5001/chathub")
-            .Build();
-            connection.StartAsync().Wait();
+            //var connection = new HubConnectionBuilder()
+            //.WithUrl("https://localhost:5001/chathub")
+            //.Build();
+            //connection.StartAsync().Wait();
 
-            connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+            //connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
 
         }
 
