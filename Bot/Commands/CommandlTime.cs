@@ -34,13 +34,11 @@ namespace ChatBot.Base
                 case "up":
                 case "uptime":
                     //client.SendMessage(e.Command.ChatMessage.Channel, "uptime");
-
                     // TimeSpan? GetUptime()
                     // {
                     //     //string userid = GetUserID(client.Channel)
                     //     return client.GetUptime(e.Command.ChatMessage.Channel).Result;
                     // }
-
                     Helpers.StatusInfo($"uptime {0}", "fail");
                     break;
                 default:
