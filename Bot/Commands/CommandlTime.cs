@@ -13,41 +13,35 @@ namespace ChatBot.Base
 
     public void ExecuteAsync(OnChatCommandReceivedArgs e)
         {
-            string message = e.Command.ChatMessage.Message.Remove(0, e.Command.CommandText.Length + 2);
-            client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
 
-            switch(message)
+            if (e.Command.ChatMessage.Message.Length > 12)
             {
+                string message = e.Command.ChatMessage.Message.Remove(0, e.Command.CommandText.Length + 2);
+                client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
 
-                case "local":
-                    client.SendMessage(e.Command.ChatMessage.Channel, "local");
-                    Helpers.StatusInfo($"local", "fail");
-                    var msg = string.Format("{0} curent time is", DateTime.Now.ToShortTimeString());
-                    new CommandAnnounce(client).Execute(msg, e);
-                    break;
-                case "streamer":
-                    // client.SendMessage(e.Command.ChatMessage.Channel, "local");
-                    // Helpers.StatusInfo($"local", "fail");
-                    // var msg = string.Format("{0} curent time is", DateTime.Now.ToShortTimeString());
-                    // new CommandAnnounce(client).Execute(msg, e);
-                    break;
-                case "up":
-                case "uptime":
-                    //client.SendMessage(e.Command.ChatMessage.Channel, "uptime");
-                    // TimeSpan? GetUptime()
-                    // {
-                    //     //string userid = GetUserID(client.Channel)
-                    //     return client.GetUptime(e.Command.ChatMessage.Channel).Result;
-                    // }
-                    Helpers.StatusInfo($"uptime {0}", "fail");
-                    break;
-                default:
-                    client.SendMessage(e.Command.ChatMessage.Channel, "Vaild commands are, local - your local time, streamer - the streamers local time, up/uptime - stream up time");
-                    Helpers.StatusInfo($"default", "fail");
-                    break;
+                switch (message)
+                {
+                    case "local":
+                        // Not Implemented 
+                        Helpers.StatusInfo($"local", "ok");
+                        break;
+                    case "streamer":
+                        // Not Implemented
+                        Helpers.StatusInfo($"streamer", "ok");
+                        break;
+                    case "up":
+                    case "uptime":
+                        // Not Implemented
+                        Helpers.StatusInfo($"up or uptime", "ok");
+                        break;
+                }
+            }
+            else
+            {
+                Helpers.StatusInfo($"local/default", "ok");
+                var msg = string.Format("{0} curent time is", DateTime.Now.ToShortTimeString());
+                new CommandAnnounce(client).Execute(msg, e);
             }
         }
-
-
     }
 }
