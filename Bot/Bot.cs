@@ -83,12 +83,12 @@ namespace ChatBot
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            if (!e.ChatMessage.IsBroadcaster)
-            {
-                _ = ("!so " + e.ChatMessage.DisplayName);
-                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
-                coders.Remove(e.ChatMessage.DisplayName);
-            }
+            //if (!e.ChatMessage.IsBroadcaster)
+            //{
+            //    _ = ("!so " + e.ChatMessage.DisplayName);
+            //    new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
+            //    coders.Remove(e.ChatMessage.DisplayName);
+            //}
 
             BuildStreamPost($"{DateTime.UtcNow.ToString()},{e.ChatMessage.UserType},{e.ChatMessage.DisplayName},{e.ChatMessage.Username},{e.ChatMessage.IsSubscriber.ToString()},{e.ChatMessage.Message}" + Environment.NewLine);
             foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
@@ -134,7 +134,7 @@ namespace ChatBot
                 Helpers.StatusInfo($"Local IP Address : {item.ToString()}", "info");
             }
             Helpers.StatusInfo($"Connected to Twitch Channel : ({e.AutoJoinChannel})", "ok");
-            Helpers.StatusInfo($"Vector IP : {Settings.Vector_IP}","info");
+            Helpers.StatusInfo($"Vector IP : {Settings.Vector_IP}", "info");
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
