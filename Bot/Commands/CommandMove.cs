@@ -51,6 +51,9 @@ namespace ChatBot.Base
                 //say something
                 await robot.Audio.SayTextAsync("all done");
 
+                // 
+                robot.StopSuppressingPersonality();
+
                 //disconnect
                 await robot.DisconnectAsync();
                 return true;

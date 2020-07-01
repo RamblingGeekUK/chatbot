@@ -18,6 +18,7 @@ using TwitchLib.Api.Services;
 using TwitchLib.Api.Services.Events;
 using TwitchLib.Api.Services.Events.LiveStreamMonitor;
 using Microsoft.AspNetCore.SignalR.Client;
+using Google.Rpc;
 
 namespace ChatBot
 {
@@ -28,9 +29,6 @@ namespace ChatBot
         private readonly TwitchClient client;
         private readonly Dictionary<string, ICommand> commands;
         private readonly List<string> coders;
-
-     
-
 
         public Bot()
         {
@@ -63,7 +61,8 @@ namespace ChatBot
                     { "vector-bat", new CommandBat(client) },
                     { "vector-vol", new CommandVol(client) },
                     { "vector-move", new CommandMove(client) },
-                    { "vector-localtime", new CommandLocalTime(client) }
+                    { "vector-time", new CommandTime(client) },
+                    { "vector-play", new CommandPlay(client) }
                 };
 
                 coders = GetLiveCoders();
@@ -85,7 +84,12 @@ namespace ChatBot
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            if (!e.ChatMessage.IsBroadcaster)
+            if (e.ChatMessage.IsBroadcaster)
+            {
+                //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
+                //new CommandAnnounce(client).Execute(message, e);
+            }
+            else if (coders.Contains(e.ChatMessage.DisplayName))
             {
                 _ = ("!so " + e.ChatMessage.DisplayName);
                 new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
@@ -99,16 +103,14 @@ namespace ChatBot
                 BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);  
             }
 
-            //var connection = new HubConnectionBuilder()
-            //.WithUrl("https://localhost:5001/chathub")
-            //.Build();
-            //connection.StartAsync().Wait();
+            // var connection = new HubConnectionBuilder()
+            // .WithUrl("https://localhost:5001/chathub")
+            // .Build();
+            // connection.StartAsync().Wait();
 
-            //connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+            // connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
 
         }
-
-       
 
         private void Client_OnRaidNotification(object sender, OnRaidNotificationArgs e)
         {
@@ -136,7 +138,7 @@ namespace ChatBot
                 Helpers.StatusInfo($"Local IP Address : {item.ToString()}", "info");
             }
             Helpers.StatusInfo($"Connected to Twitch Channel : ({e.AutoJoinChannel})", "ok");
-            Helpers.StatusInfo($"Vector IP : {Settings.Vector_IP}","info");
+            Helpers.StatusInfo($"Vector IP : {Settings.Vector_IP}", "info");
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {

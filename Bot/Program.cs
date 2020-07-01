@@ -11,10 +11,8 @@ namespace ChatBot
         static void Main(string[] args)
         {
             new Bot();
-            //CreateWebHostBuilder(args).Build().Run();
+            // CreateWebHostBuilder(args).Build().Run();
 
-
-           
             Thread.Sleep(Timeout.Infinite);
         }
 
