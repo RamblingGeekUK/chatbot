@@ -2,9 +2,14 @@
 
 namespace ChatBot
 {
-    public static class Settings
+    public class Settings
     {
-        public static string Twitch_channel = Environment.GetEnvironmentVariable("Twitch_channel");
+        public string Twitch_channel;
+
+
+        Twitch_channel = "Hello World"; //Environment.GetEnvironmentVariable("Twitch_channel");
+
+
         public static string Twitch_botusername = Environment.GetEnvironmentVariable("Twitch_botusername");
         public static string Twitch_token = Environment.GetEnvironmentVariable("Twitch_token");
         public static string Twitch_ID = Environment.GetEnvironmentVariable("Twitch_ID");
