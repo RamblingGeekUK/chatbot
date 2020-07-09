@@ -19,18 +19,20 @@ using TwitchLib.Api.Services.Events;
 using TwitchLib.Api.Services.Events.LiveStreamMonitor;
 using Microsoft.AspNetCore.SignalR.Client;
 using Google.Rpc;
+using System.Threading.Tasks;
+using AutoMapper;
 
 namespace ChatBot
 {
 
-    public partial class Bot
+    public class Bot : ITwitchBotService
     {
         private readonly string streampost = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("yyyy-dd-MM-hh-mm-ss") + ".md";
-        private readonly TwitchClient client;
-        private readonly Dictionary<string, ICommand> commands;
-        private readonly List<string> coders;
+        private TwitchClient client;
+        private Dictionary<string, ICommand> commands;
+        private List<string> coders;
 
-        public Bot()
+        public Task BotStart()
         {
             try
             {
@@ -39,7 +41,7 @@ namespace ChatBot
                 this.client = new TwitchClient();
                 this.client.Initialize(credentials, Settings.Twitch_channel);
                 this.client.OnLog += Client_OnLog;
-                this.client.OnMessageReceived += OnMessageReceived;
+                this.client.OnMessageReceived += OnMessageReceivedAsync;
                 this.client.OnJoinedChannel += Client_OnJoinedChannel;
                 this.client.OnConnected += Client_OnConnectedAsync;
                 this.client.OnChatCommandReceived += Client_OnChatCommandReceived;
@@ -74,6 +76,8 @@ namespace ChatBot
                 System.Console.WriteLine(Settings.Twitch_botusername);
                 System.Console.WriteLine(Settings.Twitch_token);
             }
+
+            return Task.FromResult(0);
         }
 
       
@@ -82,7 +86,7 @@ namespace ChatBot
             Helpers.StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "ok");
         }
 
-        private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
+        private Task OnMessageReceivedAsync(object sender, OnMessageReceivedArgs e)
         {
             if (e.ChatMessage.IsBroadcaster)
             {
@@ -100,7 +104,11 @@ namespace ChatBot
             foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
             {
                 Helpers.StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
-                BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);  
+                BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
+
+                //var discord = new DiscordBot();
+
+                //discord.PostMessage(729021058568421386, $"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
             }
 
             // var connection = new HubConnectionBuilder()
