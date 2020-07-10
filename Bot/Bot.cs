@@ -25,14 +25,14 @@ using AutoMapper;
 namespace ChatBot
 {
 
-    public class Bot : ITwitchBotService
+    public class TwitchBot : ITwitchBotService
     {
         private readonly string streampost = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("yyyy-dd-MM-hh-mm-ss") + ".md";
         private TwitchClient client;
         private Dictionary<string, ICommand> commands;
         private List<string> coders;
 
-        public Task BotStart()
+        public Task Start()
         {
             try
             {
@@ -86,7 +86,7 @@ namespace ChatBot
             Helpers.StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "ok");
         }
 
-        private Task OnMessageReceivedAsync(object sender, OnMessageReceivedArgs e)
+        private void OnMessageReceivedAsync(object sender, OnMessageReceivedArgs e)
         {
             if (e.ChatMessage.IsBroadcaster)
             {

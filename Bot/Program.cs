@@ -13,24 +13,15 @@ namespace ChatBot
 
             var serviceProvider = new ServiceCollection()
                 .AddLogging()
-                .AddSingleton<ITwitchBotService, Bot>()
+                .AddSingleton<ITwitchBotService, TwitchBot>()
                 .AddSingleton<IDiscordBotService, DiscordBot>()
                 .BuildServiceProvider();
 
-            var bot = serviceProvider.GetService<ITwitchBotService>();
-            bot.BotStart();
+            var TwitchBot = serviceProvider.GetService<ITwitchBotService>();
+            TwitchBot.Start();
 
-            var Discordb = serviceProvider.GetService<IDiscordBotService>();
-            Discordb.DBot();
-
-
-            // Keep the program running until a esc key is presssed. 
-            ConsoleKeyInfo info = Console.ReadKey();
-            if (info.Key == ConsoleKey.Escape)
-            {
-                Console.WriteLine("Stopping Application - Escape Key Pressed");
-                
-            }
+            var DiscordBot = serviceProvider.GetService<IDiscordBotService>();
+            DiscordBot.Start();
 
             //configure console logging
             serviceProvider.GetService<ILoggerFactory>();
@@ -38,7 +29,15 @@ namespace ChatBot
             var logger = serviceProvider.GetService<ILoggerFactory>()
                 .CreateLogger<Program>();
             logger.LogDebug("Starting application");
-       
+
+            // Keep the program running until a esc key is presssed. 
+            ConsoleKeyInfo info = Console.ReadKey();
+            if (info.Key == ConsoleKey.Escape)
+            {
+                Console.WriteLine("Stopping Application - Escape Key Pressed");
+
+            }
+
         }
     }
 }

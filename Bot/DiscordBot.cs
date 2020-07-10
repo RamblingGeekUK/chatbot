@@ -9,7 +9,7 @@ namespace ChatBot
     {
         private DiscordClient _discordClient;
 
-        public async Task DBot()
+        public async Task Start()
         {
             _discordClient = new DiscordClient(new DiscordConfiguration
             {

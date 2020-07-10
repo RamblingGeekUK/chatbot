@@ -7,6 +7,6 @@ namespace ChatBot
 {
     public interface ITwitchBotService
     {
-          Task BotStart();
+          Task Start();
     }
 }

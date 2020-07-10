@@ -4,7 +4,7 @@ namespace ChatBot
 {
     public interface IDiscordBotService
     {
-        Task DBot();
+        Task Start();
 
     }
 }
