@@ -1,43 +1,69 @@
-﻿
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
-using System.Runtime.CompilerServices;
+using System.IO;
 
 namespace ChatBot
 {
-    partial class Program
+    class Program
     {
         static void Main(string[] args)
         {
 
-            var serviceProvider = new ServiceCollection()
-                .AddLogging()
-                .AddSingleton<ITwitchBotService, TwitchBot>()
-                .AddSingleton<IDiscordBotService, DiscordBot>()
-                .BuildServiceProvider();
+            //configure console logging
+            var builder = new ConfigurationBuilder();
+            BuildConfig(builder);
 
-            var TwitchBot = serviceProvider.GetService<ITwitchBotService>();
+            Log.Logger = new LoggerConfiguration()
+                        .ReadFrom.Configuration(builder.Build())
+                        .Enrich.FromLogContext()
+                        .WriteTo.Console()
+                        .CreateLogger();
+
+            Log.Information("Chatbot Started");
+
+            var host = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
+                { 
+                    services.AddSingleton<ITwitchBotService, TwitchBot>();
+                    services.AddSingleton<IDiscordBotService, DiscordBot>();
+                })
+                .UseSerilog()
+                .Build();
+
+            //var serviceProvider = new ServiceCollection()
+            //    .AddSingleton<ITwitchBotService, TwitchBot>()
+            //    .AddSingleton<IDiscordBotService, DiscordBot>()
+            //    .BuildServiceProvider();
+
+
+            // var connection = new HubConnectionBuilder()
+            // .WithUrl("https://localhost:5001/chathub")
+            // .Build();
+            // connection.StartAsync().Wait();
+
+            // connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+
+            var TwitchBot = ActivatorUtilities.CreateInstance<TwitchBot>(host.Services);
             TwitchBot.Start();
 
-            var DiscordBot = serviceProvider.GetService<IDiscordBotService>();
-            DiscordBot.Start();
 
-            //configure console logging
-            serviceProvider.GetService<ILoggerFactory>();
+            var DiscordBot = ActivatorUtilities.CreateInstance<DiscordBot>(host.Services);
+            _ = DiscordBot.Start();
 
-            var logger = serviceProvider.GetService<ILoggerFactory>()
-                .CreateLogger<Program>();
-            logger.LogDebug("Starting application");
 
             // Keep the program running until a esc key is presssed. 
             ConsoleKeyInfo info = Console.ReadKey();
-            if (info.Key == ConsoleKey.Escape)
-            {
-                Console.WriteLine("Stopping Application - Escape Key Pressed");
-
-            }
-
+          
+        }
+        static void BuildConfig(IConfigurationBuilder builder)
+        {
+            builder.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+                .AddEnvironmentVariables();
         }
     }
 }

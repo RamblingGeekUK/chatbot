@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
@@ -12,7 +13,7 @@ namespace ChatBot.Base
         {
         }
 
-        public void ExecuteAsync(OnChatCommandReceivedArgs e)
+        public void Execute(OnChatCommandReceivedArgs e)
         {
             client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
 
@@ -20,7 +21,7 @@ namespace ChatBot.Base
 
             this.MessageChat(e.Command.ChatMessage.Channel, joke);
             new CommandAnnounce(client).Execute(joke, e);
-            Helpers.StatusInfo($"{joke}", "vector");
+            Log.Information($"{joke}", "vector");
         }
 
         private string SelectJoke()

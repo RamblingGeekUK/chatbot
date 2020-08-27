@@ -4,6 +4,6 @@ namespace ChatBot
 {
     public interface ICommand
     {
-        void ExecuteAsync(OnChatCommandReceivedArgs e);
+        void Execute(OnChatCommandReceivedArgs e);
     }
 }

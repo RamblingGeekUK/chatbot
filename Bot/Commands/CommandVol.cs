@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Serilog;
+using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using Vector;
@@ -12,7 +13,7 @@ namespace ChatBot.Base
         {
         }
 
-        public void ExecuteAsync(OnChatCommandReceivedArgs e)
+        public void Execute(OnChatCommandReceivedArgs e)
         {
             _ = Vector(e);
         }
@@ -37,7 +38,7 @@ namespace ChatBot.Base
                     switch (message)
                     {
                         case "low":
-                            Helpers.StatusInfo($"Vol:low", "ok");
+                            Log.Information($"Vol:low", "ok");
                             await robot.Audio.SetMasterVolumeAsync(1);  //lowest volume setting (1-5)
                             await robot.Audio.SayTextAsync($"Volume set to low");
                             robot.StopSuppressingPersonality();
@@ -45,7 +46,7 @@ namespace ChatBot.Base
                             await robot.DisconnectAsync();
                             break;
                         case "med":
-                            Helpers.StatusInfo($"Vol:med", "ok");
+                            Log.Information($"Vol:med", "ok");
                             await robot.Audio.SetMasterVolumeAsync(3);
                             //say something
                             await robot.Audio.SayTextAsync($"Volume set to medium");
@@ -54,7 +55,7 @@ namespace ChatBot.Base
                             await robot.DisconnectAsync();
                             break;
                         case "high":
-                            Helpers.StatusInfo($"Vol:high", "ok");
+                            Log.Information($"Vol:high", "ok");
                             await robot.Audio.SetMasterVolumeAsync(5);
                             //say something
                             await robot.Audio.SayTextAsync("Volume set to high",1,false);

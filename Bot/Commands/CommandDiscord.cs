@@ -1,11 +1,12 @@
 ﻿using TwitchLib.Client;
 using TwitchLib.Client.Events;
+using ChatBot;
 
 namespace ChatBot.Base
 {
-    public class CommandALive : CommandBase, ICommand
+    public class CommandDiscord : CommandBase, ICommand
     {
-        public CommandALive(TwitchClient client)
+        public CommandDiscord(TwitchClient client)
             : base(client)
         {
         }
@@ -13,6 +14,9 @@ namespace ChatBot.Base
         public void Execute(OnChatCommandReceivedArgs e)
         {
             this.MessageChat(e.Command.ChatMessage.Channel, " is ALIVE!");
+            //await PostMessage(729021058568421386, "Hello World");
         }
+
+
     }
 }

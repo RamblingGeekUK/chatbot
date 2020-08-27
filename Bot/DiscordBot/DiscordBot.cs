@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DSharpPlus;
+using Serilog;
 
 namespace ChatBot
 {
@@ -11,6 +12,7 @@ namespace ChatBot
 
         public async Task Start()
         {
+            Log.Information("Discord Bot Started");
             _discordClient = new DiscordClient(new DiscordConfiguration
             {
                 Token = Environment.GetEnvironmentVariable("DiscordToken"),

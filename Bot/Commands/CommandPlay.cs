@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
@@ -12,7 +13,7 @@ namespace ChatBot.Base
             : base(client)
         {
         }
-        public void ExecuteAsync(OnChatCommandReceivedArgs e)
+        public void Execute(OnChatCommandReceivedArgs e)
         {
             _ = Vector(e);
         
@@ -36,14 +37,14 @@ namespace ChatBot.Base
                 switch (message)
                 {
                     case "start":
-                        Helpers.StatusInfo($"Play : Start", "ok");
+                        Log.Information($"Play : Start", "ok");
                         await robot.Audio.SayTextAsync($"YES!, it's play time");
                         robot.StopSuppressingPersonality();
                         //disconnect
                         //await robot.DisconnectAsync();
                         break;
                     case "stop":
-                        Helpers.StatusInfo($"Play : Stop", "ok");
+                        Log.Information($"Play : Stop", "ok");
                         await robot.Audio.SetMasterVolumeAsync(3);
                         //say something
                         await robot.Audio.SayTextAsync($"Yes, waiting for you to tell me what to do!");
