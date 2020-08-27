@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Drawing;
 using System.Net.Http;
 using System.Text;
@@ -79,7 +80,7 @@ namespace ChatBot.Base
             }
             catch (Exception e)
             {
-                Helpers.StatusInfo($"Connecting to Vector failed! {e.Message}", "fail");
+                Log.Information($"Connecting to Vector failed! {e.Message}", "fail");
 
                 return false;
             }

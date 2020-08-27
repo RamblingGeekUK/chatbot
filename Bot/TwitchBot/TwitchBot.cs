@@ -19,18 +19,22 @@ using TwitchLib.Api.Services.Events;
 using TwitchLib.Api.Services.Events.LiveStreamMonitor;
 using Microsoft.AspNetCore.SignalR.Client;
 using Google.Rpc;
+using System.Threading.Tasks;
+using AutoMapper;
+using Serilog;
 
 namespace ChatBot
 {
 
-    public partial class Bot
+    public class TwitchBot : ITwitchBotService
     {
         private readonly string streampost = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("yyyy-dd-MM-hh-mm-ss") + ".md";
-        private readonly TwitchClient client;
-        private readonly Dictionary<string, ICommand> commands;
-        private readonly List<string> coders;
+        private TwitchClient client;
+        private Dictionary<string, ICommand> commands;
+        private List<string> coders;
 
-        public Bot()
+        
+        public Task Start()
         {
             try
             {
@@ -39,7 +43,7 @@ namespace ChatBot
                 this.client = new TwitchClient();
                 this.client.Initialize(credentials, Settings.Twitch_channel);
                 this.client.OnLog += Client_OnLog;
-                this.client.OnMessageReceived += OnMessageReceived;
+                this.client.OnMessageReceived += OnMessageReceivedAsync;
                 this.client.OnJoinedChannel += Client_OnJoinedChannel;
                 this.client.OnConnected += Client_OnConnectedAsync;
                 this.client.OnChatCommandReceived += Client_OnChatCommandReceived;
@@ -62,7 +66,8 @@ namespace ChatBot
                     { "vector-vol", new CommandVol(client) },
                     { "vector-move", new CommandMove(client) },
                     { "vector-time", new CommandTime(client) },
-                    { "vector-play", new CommandPlay(client) }
+                    { "vector-play", new CommandPlay(client) },
+                    { "discord-test", new CommandPlay(client) }
                 };
 
                 coders = GetLiveCoders();
@@ -71,18 +76,19 @@ namespace ChatBot
             }
             catch (Exception)
             {
-                System.Console.WriteLine(Settings.Twitch_botusername);
-                System.Console.WriteLine(Settings.Twitch_token);
+                Log.Logger.Error("Normally to end up here, no enviroment varaibles are set :-)");
             }
+
+            return Task.FromResult(0);
         }
 
       
         private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
-            Helpers.StatusInfo($"Whisper received from : {e.WhisperMessage.DisplayName}", "ok");
+            Log.Information($"Whisper received from : {e.WhisperMessage.DisplayName}", "ok");
         }
 
-        private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
+        private void OnMessageReceivedAsync(object sender, OnMessageReceivedArgs e)
         {
             if (e.ChatMessage.IsBroadcaster)
             {
@@ -99,17 +105,12 @@ namespace ChatBot
             BuildStreamPost($"{DateTime.UtcNow.ToString()},{e.ChatMessage.UserType},{e.ChatMessage.DisplayName},{e.ChatMessage.Username},{e.ChatMessage.IsSubscriber.ToString()},{e.ChatMessage.Message}" + Environment.NewLine);
             foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
             {
-                Helpers.StatusInfo($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
-                BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);  
+                Log.Information($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
+                BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
+
+                
+                //discord.PostMessage(729021058568421386, $"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
             }
-
-            // var connection = new HubConnectionBuilder()
-            // .WithUrl("https://localhost:5001/chathub")
-            // .Build();
-            // connection.StartAsync().Wait();
-
-            // connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
-
         }
 
         private void Client_OnRaidNotification(object sender, OnRaidNotificationArgs e)
@@ -125,30 +126,29 @@ namespace ChatBot
         }
         private void Client_OnLog(object sender, OnLogArgs e)
         {
-            //Console.WriteLine($"{e.DateTime.ToString()}: {e.BotUsername} - {e.Data}");
+            
         }
         private void Client_OnConnectedAsync(object sender, OnConnectedArgs e)
         {
-            IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());
-
-            Helpers.StatusInfo($"Assembly Version : {GetType().Assembly.GetName().Version.ToString()}", "info");
-            
+            IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());        
             foreach(var item in heserver.AddressList)
             {
-                Helpers.StatusInfo($"Local IP Address : {item.ToString()}", "info");
+                Log.Information($"Local IP Address : {item.ToString()}", "info");
             }
-            Helpers.StatusInfo($"Connected to Twitch Channel : ({e.AutoJoinChannel})", "ok");
-            Helpers.StatusInfo($"Vector IP : {Settings.Vector_IP}", "info");
+          
+            Log.Information($"Connected to Twitch Channel : ({e.AutoJoinChannel})", "ok");
+            Log.Information($"Vector IP : {Settings.Vector_IP}", "info");
+            Log.Information("Twitch Bot Started");
         }
         private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
             string vtalktext = "Hi, I'm here!";
-           
-            Helpers.StatusInfo("TwitchBot (J5Bot) Joined Twitch Chat", "ok");
+
+            Log.Information("TwitchBot (J5Bot) Joined Twitch Chat", "ok");
             client.SendMessage(e.Channel, "TwitchBot (J5Bot) Joined Twitch Chat");
             client.SendMessage(e.Channel, "rambli4Vector is here.");
             new CommandAnnounce(client).Execute(vtalktext, e);
-            Helpers.StatusInfo($"{vtalktext}", "vector");
+            Log.Information($"{vtalktext}", "vector");
      
         }
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
@@ -156,7 +156,7 @@ namespace ChatBot
             if (this.commands.ContainsKey(e.Command.CommandText.ToLower()) == false)
                 return;
 
-            this.commands[e.Command.CommandText.ToLower()].ExecuteAsync(e);
+            this.commands[e.Command.CommandText.ToLower()].Execute(e);
         }
 
         private void BuildStreamPost(string message)

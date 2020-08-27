@@ -3,6 +3,7 @@ using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using Vector;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace ChatBot.Base
 {
@@ -13,7 +14,7 @@ namespace ChatBot.Base
         {
         }
 
-        public void ExecuteAsync(OnChatCommandReceivedArgs e)
+        public void Execute(OnChatCommandReceivedArgs e)
         {
             _ = Vector(e);
         }
@@ -61,7 +62,7 @@ namespace ChatBot.Base
             catch (Exception)
             {
                 client.SendMessage(e.Command.ChatMessage.Channel, "Looks like you didn't give vector anything to say, try again.");
-                Helpers.StatusInfo($"Vector was asked to say something but no text was given", "fail");
+                Log.Information($"Vector was asked to say something but no text was given", "fail");
                 return false;
             }
         }
