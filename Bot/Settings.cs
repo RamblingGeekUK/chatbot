@@ -16,5 +16,8 @@ namespace ChatBot
         public static string Vector_Username = Environment.GetEnvironmentVariable("Vector_Username");
         public static string Vector_Password = Environment.GetEnvironmentVariable("Vector_Password");
 
+        public static string Fauna_Secret = Environment.GetEnvironmentVariable("Fauna_Secret");
+
     }
 }
+

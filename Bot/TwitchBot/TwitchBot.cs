@@ -1,31 +1,22 @@
-﻿using System;
+﻿using ChatBot.Base;
+using ChatBot.Fauna;
+using FaunaDB.Client;
+using Newtonsoft.Json;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-
-using ChatBot.Base;
-using Newtonsoft.Json;
-
+using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 
-using TwitchLib.Api;
-using TwitchLib.Api.Services;
-using TwitchLib.Api.Services.Events;
-using TwitchLib.Api.Services.Events.LiveStreamMonitor;
-using Microsoft.AspNetCore.SignalR.Client;
-using Google.Rpc;
-using System.Threading.Tasks;
-using AutoMapper;
-using Serilog;
-
 namespace ChatBot
 {
-
     public class TwitchBot : ITwitchBotService
     {
         private readonly string streampost = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "//" + DateTime.UtcNow.ToString("yyyy-dd-MM-hh-mm-ss") + ".md";
@@ -33,7 +24,7 @@ namespace ChatBot
         private Dictionary<string, ICommand> commands;
         private List<string> coders;
 
-        
+        static readonly string ENDPOINT = "https://db.fauna.com:443";
         public Task Start()
         {
             try
@@ -71,8 +62,6 @@ namespace ChatBot
                 };
 
                 coders = GetLiveCoders();
-
-
             }
             catch (Exception)
             {
@@ -102,14 +91,11 @@ namespace ChatBot
                 coders.Remove(e.ChatMessage.DisplayName);
             }
 
-            BuildStreamPost($"{DateTime.UtcNow.ToString()},{e.ChatMessage.UserType},{e.ChatMessage.DisplayName},{e.ChatMessage.Username},{e.ChatMessage.IsSubscriber.ToString()},{e.ChatMessage.Message}" + Environment.NewLine);
             foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
             {
                 Log.Information($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
-                BuildStreamPost($"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
-
-                
-                //discord.PostMessage(729021058568421386, $"link : {DateTime.UtcNow.ToString()}, {link.Value}" + Environment.NewLine);
+                var client = new FaunaClient(endpoint: ENDPOINT, secret: Settings.Fauna_Secret);
+                Data.WriteLink(client, link.Value).Wait();
             }
         }
 
@@ -157,32 +143,6 @@ namespace ChatBot
                 return;
 
             this.commands[e.Command.CommandText.ToLower()].Execute(e);
-        }
-
-        private void BuildStreamPost(string message)
-        {
-            StreamWriter writer;
-
-            if (File.Exists(streampost) == true)
-            {
-                using (writer = File.AppendText(streampost))
-                {
-                    writer.WriteAsync(message);
-                }
-            }
-            else
-            {
-                using (writer = File.CreateText(streampost))
-                {
-                    writer.WriteAsync("---" + Environment.NewLine);
-                    writer.WriteAsync("layout: post" + Environment.NewLine);
-                    writer.WriteAsync($"title: <<StreamTitle>>" + Environment.NewLine);
-                    writer.WriteAsync("subtitle: because why not" + Environment.NewLine);
-                    writer.WriteAsync($"date: {DateTime.UtcNow.ToString("yyyy-MM-dd hh:mm:ss")}" + Environment.NewLine);
-                    writer.WriteAsync("tags: new, first, markdown" + Environment.NewLine);
-                    writer.WriteAsync("---" + Environment.NewLine);
-                }
-            }
         }
 
         public List<string> GetLiveCoders()
