@@ -91,11 +91,15 @@ namespace ChatBot
                 coders.Remove(e.ChatMessage.DisplayName);
             }
 
-            foreach (Match link in Regex.Matches(e.ChatMessage.Message, @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
+            foreach (Match link in Regex.Matches(e.ChatMessage.Message, 
+                @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
             {
-                Log.Information($"link : {DateTime.UtcNow.ToString()}, {link.Value}", "info");
+                var protocollink = new UriBuilder(link.Value.ToString()).Uri.ToString();
+
+                Log.Information($"link : {DateTime.UtcNow.ToString()}, {protocollink}", "info");
                 var client = new FaunaClient(endpoint: ENDPOINT, secret: Settings.Fauna_Secret);
-                Data.WriteLink(client, link.Value).Wait();
+                Data.WriteLink(client, protocollink).Wait();
+                DiscordBot.PostMessage(729021058568421386, protocollink).Wait();
             }
         }
 

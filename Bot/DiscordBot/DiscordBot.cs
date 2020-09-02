@@ -8,7 +8,7 @@ namespace ChatBot
 
     public class DiscordBot : IDiscordBotService
     {
-        private DiscordClient _discordClient;
+        private static DiscordClient _discordClient;
 
         public async Task Start()
         {
@@ -33,7 +33,7 @@ namespace ChatBot
             await Task.Delay(-1);
         }
 
-        public async Task PostMessage(ulong channelId, string text)
+        public static async Task PostMessage(ulong channelId, string text)
         {
             var discordChannel = _discordClient.GetChannelAsync(channelId).Result;
             await _discordClient.SendMessageAsync(discordChannel, text);
