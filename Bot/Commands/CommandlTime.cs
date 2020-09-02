@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 
@@ -11,7 +12,7 @@ namespace ChatBot.Base
         {
         }
 
-    public void ExecuteAsync(OnChatCommandReceivedArgs e)
+    public void Execute(OnChatCommandReceivedArgs e)
         {
 
             if (e.Command.ChatMessage.Message.Length > 12)
@@ -23,22 +24,22 @@ namespace ChatBot.Base
                 {
                     case "local":
                         // Not Implemented 
-                        Helpers.StatusInfo($"local", "ok");
+                        Log.Information($"local", "ok");
                         break;
                     case "streamer":
                         // Not Implemented
-                        Helpers.StatusInfo($"streamer", "ok");
+                        Log.Information($"streamer", "ok");
                         break;
                     case "up":
                     case "uptime":
                         // Not Implemented
-                        Helpers.StatusInfo($"up or uptime", "ok");
+                        Log.Information($"up or uptime", "ok");
                         break;
                 }
             }
             else
             {
-                Helpers.StatusInfo($"local/default", "ok");
+                Log.Information($"local/default", "ok");
                 var msg = string.Format("{0} curent time is", DateTime.Now.ToShortTimeString());
                 new CommandAnnounce(client).Execute(msg, e);
             }

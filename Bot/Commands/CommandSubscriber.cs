@@ -20,7 +20,7 @@ namespace ChatBot.Base
                 client.SendMessage(e.Channel, $"Welcome {e.Subscriber.DisplayName} to the substers! You just earned 500 points!");
         }
 
-        public void ExecuteAsync(OnChatCommandReceivedArgs e)
+        public void Execute(OnChatCommandReceivedArgs e)
         {
             throw new System.NotImplementedException();
         }

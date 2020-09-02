@@ -10,15 +10,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.Tools" Version="2.30.0">
+    <PackageReference Include="DSharpPlus" Version="3.2.3" />
+    <PackageReference Include="Grpc.Tools" Version="2.31.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="libgrpc_csharp_ext.arm7" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.7" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="toastr" Version="2.1.1" />
     <PackageReference Include="TwitchLib" Version="3.1.1" />
     <PackageReference Include="TwitchLib.Client" Version="3.1.5" />
@@ -36,6 +41,12 @@
     <Reference Include="TwitchLib.Client.Models">
       <HintPath>..\..\..\..\playground\TwitchLib.Client\TwitchLib.Client\bin\Release\netstandard2.0\TwitchLib.Client.Models.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

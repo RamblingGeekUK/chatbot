@@ -12,7 +12,7 @@ namespace ChatBot.Base
         {
         }
 
-        public void ExecuteAsync(OnChatCommandReceivedArgs e)
+        public void Execute(OnChatCommandReceivedArgs e)
         {
             _ = Vector(e);
         }
