@@ -26,9 +26,9 @@ namespace ChatBot
                     await e.Message.RespondAsync("pong!");
             };
 
-            await _discordClient.ConnectAsync();
-            // Discord StreamLinks ID
-            await PostMessage(729021058568421386, "Hello World");
+            //await _discordClient.ConnectAsync();
+            //// Discord StreamLinks ID
+            //await PostMessage(729021058568421386, "Hello World");
 
             await Task.Delay(-1);
         }
