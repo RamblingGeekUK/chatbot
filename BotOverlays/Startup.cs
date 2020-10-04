@@ -25,7 +25,7 @@ namespace BotOverlays
                  builder =>
                  {
                      builder.AllowAnyMethod().AllowAnyHeader()
-                            .WithOrigins("https://localhost:5001")
+                            .WithOrigins("https://localhost:44635")
                             .AllowCredentials();
                  }));
             services.AddSignalR();

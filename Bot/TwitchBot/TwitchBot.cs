@@ -1,6 +1,7 @@
 ﻿using ChatBot.Base;
 using ChatBot.Fauna;
 using FaunaDB.Client;
+using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 using Serilog;
 using System;
@@ -14,6 +15,8 @@ using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
+using TwitchLib.Communication.Clients;
+using TwitchLib.Communication.Models;
 
 namespace ChatBot
 {
@@ -29,7 +32,20 @@ namespace ChatBot
         {
             try
             {
-                ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
+               // string fdgtWebsocketURI = "wss://irc.fdgt.dev:443";
+
+                //ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token, fdgtWebsocketURI);
+
+                var credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
+                var clientOptions = new ClientOptions
+                {
+                    MessagesAllowedInPeriod = 750,
+                    ThrottlingPeriod = TimeSpan.FromSeconds(30)
+                };
+                var customClient = new CustomeClient(clientOptions);
+                var client = new TwitchClient(customClient);
+                client.Initialize(credentials, "channel");
+
 
                 this.client = new TwitchClient();
                 this.client.Initialize(credentials, Settings.Twitch_channel);
@@ -58,7 +74,7 @@ namespace ChatBot
                     { "vector-move", new CommandMove(client) },
                     { "vector-time", new CommandTime(client) },
                     { "vector-play", new CommandPlay(client) },
-                    { "discord-test", new CommandPlay(client) }
+                    { "fdgt-test", new CommandFdgt(client) }
                 };
 
                 coders = GetLiveCoders();
@@ -79,16 +95,27 @@ namespace ChatBot
 
         private void OnMessageReceivedAsync(object sender, OnMessageReceivedArgs e)
         {
+
+         
+
             if (e.ChatMessage.IsBroadcaster)
             {
                 //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
                 //new CommandAnnounce(client).Execute(message, e);
+                var connection = new HubConnectionBuilder()
+        .WithUrl("https://localhost:44365/chathub")
+        .Build();
+                connection.StartAsync().Wait();
+                connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+
             }
             else if (coders.Contains(e.ChatMessage.DisplayName))
             {
                 _ = ("!so " + e.ChatMessage.DisplayName);
                 new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
                 coders.Remove(e.ChatMessage.DisplayName);
+
+         
             }
 
             foreach (Match link in Regex.Matches(e.ChatMessage.Message,
@@ -104,9 +131,7 @@ namespace ChatBot
                     Data.WriteLink(client, protocollink).Wait();
                     DiscordBot.PostMessage(729021058568421386, protocollink).Wait();
                 }
- 
-
-            }         
+            }
         }
 
         private void Client_OnRaidNotification(object sender, OnRaidNotificationArgs e)
@@ -145,7 +170,8 @@ namespace ChatBot
             client.SendMessage(e.Channel, "rambli4Vector is here.");
             new CommandAnnounce(client).Execute(vtalktext, e);
             Log.Information($"{vtalktext}", "vector");
-     
+            client.SendMessage(e.Channel, "raid");
+
         }
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
         {

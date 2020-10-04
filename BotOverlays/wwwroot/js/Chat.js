@@ -1,25 +1,35 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5001/chathub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-connection.on("ReceiveTwitchMessage", function (message, username) {
-    //var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    //var encodedMsg = username + " says " + msg;
-    //var li = document.createElement("li");
-    //li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
-    var tot = document.createElement("myToast");
-    tot.getElementById("username").innerHTML = username;
-    tot.getElementById("message").innerHTML = message;
-    document.getElementById("myToast").appendChild(tot);
-    $('.toast').toast('show');
-   
-  
+//Disable send button until connection is established
+//document.getElementById("sendButton").disabled = true;
+
+connection.on("ReceiveTwitchMessage", function (user, message) {
+    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var encodedMsg = user + " says " + msg;
+    var li = document.createElement("toast");
+    li.textContent = encodedMsg;
+    document.getElementById("message").innerHTML.replace(encodedMsg);
+    $('.toast').toast('show').getElementById("message").innerHTML.replace(encodedMsg);
+
+
+
+
+
 });
 
 connection.start().then(function () {
     //document.getElementById("sendButton").disabled = false;
-    //document.getElementById("myToast").toast('show');
 }).catch(function (err) {
     return console.error(err.toString());
 });
+
+//document.getElementById("sendButton").addEventListener("click", function (event) {
+//    var user = document.getElementById("userInput").value;
+//    var message = document.getElementById("messageInput").value;
+//    connection.invoke("SendMessage", user, message).catch(function (err) {
+//        return console.error(err.toString());
+//    });
+//    event.preventDefault();
+//});

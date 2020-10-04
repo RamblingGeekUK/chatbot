@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -38,17 +39,8 @@ namespace ChatBot
             //    .AddSingleton<IDiscordBotService, DiscordBot>()
             //    .BuildServiceProvider();
 
-
-            // var connection = new HubConnectionBuilder()
-            // .WithUrl("https://localhost:5001/chathub")
-            // .Build();
-            // connection.StartAsync().Wait();
-
-            // connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
-
             var TwitchBot = ActivatorUtilities.CreateInstance<TwitchBot>(host.Services);
             TwitchBot.Start();
-
 
             var DiscordBot = ActivatorUtilities.CreateInstance<DiscordBot>(host.Services);
             _ = DiscordBot.Start();
