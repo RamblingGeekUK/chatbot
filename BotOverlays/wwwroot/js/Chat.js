@@ -2,34 +2,41 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-//Disable send button until connection is established
-//document.getElementById("sendButton").disabled = true;
-
 connection.on("ReceiveTwitchMessage", function (user, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("toast");
-    li.textContent = encodedMsg;
-    document.getElementById("message").innerHTML.replace(encodedMsg);
-    $('.toast').toast('show').getElementById("message").innerHTML.replace(encodedMsg);
+    // Main
+    var main = document.createElement('div');
+    main.className = 'toast fade show';
+    main.id = "chatmsg";
+    main.setAttribute('data-autohide', true);
 
+    // Header
+    var header = document.createElement('div');
+    header.className = 'toast-header';
+    header.innerHTML = user;
+    main.appendChild(header);
 
+    //// Add Close Button to Header
+    //var closebut = document.createElement('button');
+    //closebut.className = 'm1-2 mb-1 close';
+    //closebut.appendChild(header);
 
+    // Body
+    var body = document.createElement('div');
+    body.className = 'toast-body';
+    body.innerHTML = message;
+    main.appendChild(body);
+
+    // Append to the DOM
+    document.body.appendChild(main);
+
+    // Show Toast
+    $("#twitchchat").toast('show');
 
 
 });
 
 connection.start().then(function () {
-    //document.getElementById("sendButton").disabled = false;
+    $("#test").toast('show');
 }).catch(function (err) {
     return console.error(err.toString());
 });
-
-//document.getElementById("sendButton").addEventListener("click", function (event) {
-//    var user = document.getElementById("userInput").value;
-//    var message = document.getElementById("messageInput").value;
-//    connection.invoke("SendMessage", user, message).catch(function (err) {
-//        return console.error(err.toString());
-//    });
-//    event.preventDefault();
-//});
