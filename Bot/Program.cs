@@ -17,6 +17,7 @@ namespace ChatBot
             var builder = new ConfigurationBuilder();
             BuildConfig(builder);
 
+
             Log.Logger = new LoggerConfiguration()
                         .ReadFrom.Configuration(builder.Build())
                         .Enrich.FromLogContext()
