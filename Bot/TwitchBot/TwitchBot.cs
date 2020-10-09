@@ -32,9 +32,6 @@ namespace ChatBot
         {
             try
             {
-               // string fdgtWebsocketURI = "wss://irc.fdgt.dev:443";
-
-                //ConnectionCredentials credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token, fdgtWebsocketURI);
 
                 var credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
                 var clientOptions = new ClientOptions
@@ -74,7 +71,7 @@ namespace ChatBot
                     { "vector-move", new CommandMove(client) },
                     { "vector-time", new CommandTime(client) },
                     { "vector-play", new CommandPlay(client) },
-                    { "fdgt-test", new CommandFdgt(client) }
+                    { "vector-whisper", new CommandWhisper(client) }
                 };
 
                 coders = GetLiveCoders();
@@ -103,8 +100,8 @@ namespace ChatBot
                 //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
                 //new CommandAnnounce(client).Execute(message, e);
                 var connection = new HubConnectionBuilder()
-        .WithUrl("https://localhost:44365/chathub")
-        .Build();
+                    .WithUrl("https://localhost:44365/chathub")
+                    .Build();
                 connection.StartAsync().Wait();
                 connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
 
@@ -129,7 +126,7 @@ namespace ChatBot
                     Log.Information($"link : {DateTime.UtcNow.ToString()}, {protocollink}", "info");
                     var client = new FaunaClient(endpoint: ENDPOINT, secret: Settings.Fauna_Secret);
                     Data.WriteLink(client, protocollink).Wait();
-                    DiscordBot.PostMessage(729021058568421386, protocollink).Wait();
+                    DiscordBot.PostMessage(e.ChatMessage.DisplayName, 729021058568421386, protocollink).Wait();
                 }
             }
         }
@@ -170,7 +167,6 @@ namespace ChatBot
             client.SendMessage(e.Channel, "rambli4Vector is here.");
             new CommandAnnounce(client).Execute(vtalktext, e);
             Log.Information($"{vtalktext}", "vector");
-            client.SendMessage(e.Channel, "raid");
 
         }
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)

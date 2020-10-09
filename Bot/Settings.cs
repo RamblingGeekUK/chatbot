@@ -17,15 +17,6 @@ namespace ChatBot
         public static string Vector_Password = Environment.GetEnvironmentVariable("Vector_Password");
 
         public static string Fauna_Secret = Environment.GetEnvironmentVariable("Fauna_Secret");
-
-     
-
-        // TwitchBot Account = jonny5bot
-        // Access Token = s57ghk1kep99h1tku68jz6bz1ldtrp
-        // Refresh Token = fsygn7pqonin9r1m55hmklbug1ld1hje0e1z7jxn7v5mrtu4ch
-        // Client ID = gp762nuuoqcoxypju8c569th9wz7q5
-
-
     }
 }
 
