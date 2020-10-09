@@ -26,18 +26,10 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="toastr" Version="2.1.1" />
+    <PackageReference Include="TwitchLib" Version="3.1.1" />
+    <PackageReference Include="TwitchLib.Client" Version="3.1.5" />
     <PackageReference Include="Vector" Version="0.6.0" />
 
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\TwitchLib.Client\TwitchLib.Client\TwitchLib.Client.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="TwitchLib.Communication">
-      <HintPath>..\..\TwitchLib.Client\TwitchLib.Communication\src\TwitchLib.Communication\bin\Debug\netstandard2.0\TwitchLib.Communication.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

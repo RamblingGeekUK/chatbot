@@ -15,8 +15,7 @@ using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
-using TwitchLib.Communication.Clients;
-using TwitchLib.Communication.Models;
+
 
 namespace ChatBot
 {
@@ -34,16 +33,7 @@ namespace ChatBot
             {
 
                 var credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
-                var clientOptions = new ClientOptions
-                {
-                    MessagesAllowedInPeriod = 750,
-                    ThrottlingPeriod = TimeSpan.FromSeconds(30)
-                };
-                var customClient = new CustomeClient(clientOptions);
-                var client = new TwitchClient(customClient);
-                client.Initialize(credentials, "channel");
-
-
+                
                 this.client = new TwitchClient();
                 this.client.Initialize(credentials, Settings.Twitch_channel);
                 this.client.OnLog += Client_OnLog;
