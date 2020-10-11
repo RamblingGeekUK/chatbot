@@ -50,6 +50,7 @@ namespace ChatBot
                     { "alive", new CommandALive(client) },
                     { "vector-say", new CommandSay(client) },
                     { "vs", new CommandSay(client) },
+                    { "sfx", new CommandSFX(client) },
                     { "vector-joke", new CommandTellJoke(client) },
                     { "attention", new CommandAttention(client) },
                     { "lurk", new CommandLurk(client) },
@@ -89,11 +90,11 @@ namespace ChatBot
             {
                 //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
                 //new CommandAnnounce(client).Execute(message, e);
-                //var connection = new HubConnectionBuilder()
-                //    .WithUrl("https://localhost:44365/chathub")
-                //    .Build();
-                //connection.StartAsync().Wait();
-                // connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+                var connection = new HubConnectionBuilder()
+                    .WithUrl("https://localhost:44365/chathub")
+                    .Build();
+                connection.StartAsync().Wait();
+                connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
 
             }
             else if (coders.Contains(e.ChatMessage.DisplayName))
@@ -190,5 +191,8 @@ namespace ChatBot
                 return new List<string>();
             }
         }
+
+
+
     }
 }

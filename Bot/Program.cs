@@ -10,7 +10,7 @@ namespace ChatBot
 {
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
 
             //configure console logging
@@ -35,16 +35,11 @@ namespace ChatBot
                 .UseSerilog()
                 .Build();
 
-            //var serviceProvider = new ServiceCollection()
-            //    .AddSingleton<ITwitchBotService, TwitchBot>()
-            //    .AddSingleton<IDiscordBotService, DiscordBot>()
-            //    .BuildServiceProvider();
-
             var TwitchBot = ActivatorUtilities.CreateInstance<TwitchBot>(host.Services);
-            TwitchBot.Start();
+            await TwitchBot.Start();
 
             var DiscordBot = ActivatorUtilities.CreateInstance<DiscordBot>(host.Services);
-            _ = DiscordBot.Start();
+            await DiscordBot.Start();
 
 
             // Keep the program running until a esc key is presssed. 
