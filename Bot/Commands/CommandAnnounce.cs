@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using DSharpPlus.EventArgs;
+using Serilog;
 using System;
 using System.Drawing;
 using System.Net.Http;
@@ -44,7 +45,12 @@ namespace ChatBot.Base
                 //this.MessageChat(e.Channel, message);
                 await this.Vector(message);
         }
-             
+
+        internal void Execute(string v, MessageCreateEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> Vector(string message)
         {
             try

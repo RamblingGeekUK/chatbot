@@ -1,17 +1,25 @@
-﻿using System;
-using System.Threading.Tasks;
-using ChatBot.Base;
+﻿using ChatBot.Helpers;
 using DSharpPlus;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TwitchLib.Client;
 
 namespace ChatBot
 {
 
-    public class DiscordBot : IDiscordBotService 
+    public class DiscordBot : IDiscordBotService
     {
         private static DiscordClient _discordClient;
+        private TwitchClient client;
+        private Dictionary<string, ICommand> commands;
+
         public async Task Start()
         {
+
+            this.commands = CommandHelper.GetCommands(client);
+
             Log.Information("Discord Bot Started");
             _discordClient = new DiscordClient(new DiscordConfiguration
             {
@@ -26,20 +34,20 @@ namespace ChatBot
                     await e.Message.RespondAsync("pong!");
             };
 
+
             _discordClient.MessageCreated += async e =>
             {
                 if (e.Message.Content.ToLower().StartsWith("!vector-say"))
                 {
                     await e.Message.RespondAsync("why are you trying to make me talk in here? :-)");
+                    //CommandAnnounce(client).Execute(vtalktext, e);
+                    TwitchLib.Client.Events.OnChatCommandReceivedArgs te = new TwitchLib.Client.Events.OnChatCommandReceivedArgs();
+                    
+                    commands[e.Message.Content.ToLower()].Execute(te);
 
                 }
-
             };
-
             await _discordClient.ConnectAsync();
-            // Discord StreamLinks ID
-            //await PostMessage(729021058568421386, "Hello World");
-            //await Task.Delay(-1);
         }
 
         public static async Task PostMessage(string DisplayName, ulong channelId, string text)
