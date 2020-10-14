@@ -34,6 +34,12 @@ namespace ChatBot.Base
             await this.Vector(message);
         }
 
+        public async void Execute(string message)
+        {
+            //this.MessageChat(e.ChatMessage.Channel, message);
+            await this.Vector(message);
+        }
+
         public async void Execute(string message, OnChatCommandReceivedArgs e)
         {
             //this.MessageChat(e.Command.ChatMessage.BotUsername, message);

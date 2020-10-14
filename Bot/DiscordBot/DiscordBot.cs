@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TwitchLib.Client;
+using ChatBot.Base;
 
 namespace ChatBot
 {
@@ -34,17 +35,12 @@ namespace ChatBot
                     await e.Message.RespondAsync("pong!");
             };
 
-
             _discordClient.MessageCreated += async e =>
             {
                 if (e.Message.Content.ToLower().StartsWith("!vector-say"))
                 {
-                    await e.Message.RespondAsync("why are you trying to make me talk in here? :-)");
-                    //CommandAnnounce(client).Execute(vtalktext, e);
-                    TwitchLib.Client.Events.OnChatCommandReceivedArgs te = new TwitchLib.Client.Events.OnChatCommandReceivedArgs();
-                    
-                    commands[e.Message.Content.ToLower()].Execute(te);
-
+                    await e.Message.RespondAsync("Sending your message...");
+                    new CommandAnnounce(client).Execute(e.Message.Content.ToLower());
                 }
             };
             await _discordClient.ConnectAsync();
