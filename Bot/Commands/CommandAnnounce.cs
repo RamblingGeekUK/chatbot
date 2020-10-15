@@ -67,28 +67,19 @@ namespace ChatBot.Base
 
                 BatteryState x = await robot.GetBatteryStateAsync();
 
-                //if (!x.IsCharging)
-                //{
-                //    //gain control over the robot by suppressing its personality
-                    robot.StartSuppressingPersonality();
-                    await robot.WaitTillPersonalitySuppressedAsync();
+             
+                //gain control over the robot by suppressing its personality
+                robot.StartSuppressingPersonality();
+                await robot.WaitTillPersonalitySuppressedAsync();
                               
-
-                    //say something
-                    await robot.Audio.SetMasterVolumeAsync(5);
-                    await robot.Audio.SayTextAsync(message);
-                
-                    robot.StopSuppressingPersonality();
-
-                    await robot.DisconnectAsync();
-                    return true;
-                //}
-                //else
-                //{
-                //    Helpers.StatusInfo($"Vector is charging", "fail");
-                //    return false;
-                //}
-                
+                //say something
+                await robot.Audio.SetMasterVolumeAsync(5);
+                await robot.Audio.SayTextAsync(message);
+                robot.StopSuppressingPersonality();
+                await robot.Audio.SetMasterVolumeAsync(1);
+                await robot.DisconnectAsync();
+                Log.Logger.Information("Vector should of spoke the the text!");
+                return true;
             }
             catch (Exception e)
             {
