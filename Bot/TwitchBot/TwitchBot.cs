@@ -1,12 +1,12 @@
 ﻿using ChatBot.Base;
 using ChatBot.Fauna;
+using ChatBot.Helpers;
 using FaunaDB.Client;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,40 +29,22 @@ namespace ChatBot
         static readonly string ENDPOINT = "https://db.fauna.com:443";
         public Task Start()
         {
+            var credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
+
             try
             {
+                client = new TwitchClient();
+                client.Initialize(credentials, Settings.Twitch_channel);
+                client.OnLog += Client_OnLog;
+                client.OnMessageReceived += OnMessageReceivedAsync;
+                client.OnJoinedChannel += Client_OnJoinedChannel;
+                client.OnConnected += Client_OnConnectedAsync;
+                client.OnChatCommandReceived += Client_OnChatCommandReceived;
+                client.OnRaidNotification += Client_OnRaidNotification;
+                client.OnWhisperReceived += Client_OnWhisperReceived;
+                client.Connect();
 
-                var credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
-                
-                this.client = new TwitchClient();
-                this.client.Initialize(credentials, Settings.Twitch_channel);
-                this.client.OnLog += Client_OnLog;
-                this.client.OnMessageReceived += OnMessageReceivedAsync;
-                this.client.OnJoinedChannel += Client_OnJoinedChannel;
-                this.client.OnConnected += Client_OnConnectedAsync;
-                this.client.OnChatCommandReceived += Client_OnChatCommandReceived;
-                this.client.OnRaidNotification += Client_OnRaidNotification;
-                this.client.OnWhisperReceived += Client_OnWhisperReceived;
-                this.client.Connect();           
-
-                this.commands = new Dictionary<string, ICommand>
-                {
-                    { "alive", new CommandALive(client) },
-                    { "vector-say", new CommandSay(client) },
-                    { "vs", new CommandSay(client) },
-                    { "vector-joke", new CommandTellJoke(client) },
-                    { "attention", new CommandAttention(client) },
-                    { "lurk", new CommandLurk(client) },
-                    { "unlurk", new CommandUnLurk(client) },
-                    { "commands", new CommandCommands(client) },
-                    { "scene", new CommandScene(client) },
-                    { "vector-bat", new CommandBat(client) },
-                    { "vector-vol", new CommandVol(client) },
-                    { "vector-move", new CommandMove(client) },
-                    { "vector-time", new CommandTime(client) },
-                    { "vector-play", new CommandPlay(client) },
-                    { "vector-whisper", new CommandWhisper(client) }
-                };
+                this.commands = CommandHelper.GetCommands(client);
 
                 coders = GetLiveCoders();
             }
@@ -89,11 +71,11 @@ namespace ChatBot
             {
                 //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
                 //new CommandAnnounce(client).Execute(message, e);
-                //var connection = new HubConnectionBuilder()
-                //    .WithUrl("https://localhost:44365/chathub")
-                //    .Build();
-                //connection.StartAsync().Wait();
-                // connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+                var connection = new HubConnectionBuilder()
+                    .WithUrl("https://localhost:44365/chathub")
+                    .Build();
+                connection.StartAsync().Wait();
+                connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
 
             }
             else if (coders.Contains(e.ChatMessage.DisplayName))
@@ -190,5 +172,8 @@ namespace ChatBot
                 return new List<string>();
             }
         }
+
+
+
     }
 }

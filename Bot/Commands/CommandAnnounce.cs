@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using DSharpPlus.EventArgs;
+using Serilog;
 using System;
 using System.Drawing;
 using System.Net.Http;
@@ -33,6 +34,12 @@ namespace ChatBot.Base
             await this.Vector(message);
         }
 
+        public async void Execute(string message)
+        {
+            //this.MessageChat(e.ChatMessage.Channel, message);
+            await this.Vector(message);
+        }
+
         public async void Execute(string message, OnChatCommandReceivedArgs e)
         {
             //this.MessageChat(e.Command.ChatMessage.BotUsername, message);
@@ -44,7 +51,12 @@ namespace ChatBot.Base
                 //this.MessageChat(e.Channel, message);
                 await this.Vector(message);
         }
-             
+
+        internal void Execute(string v, MessageCreateEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> Vector(string message)
         {
             try
@@ -55,28 +67,19 @@ namespace ChatBot.Base
 
                 BatteryState x = await robot.GetBatteryStateAsync();
 
-                //if (!x.IsCharging)
-                //{
-                //    //gain control over the robot by suppressing its personality
-                    robot.StartSuppressingPersonality();
-                    await robot.WaitTillPersonalitySuppressedAsync();
+             
+                //gain control over the robot by suppressing its personality
+                robot.StartSuppressingPersonality();
+                await robot.WaitTillPersonalitySuppressedAsync();
                               
-
-                    //say something
-                    await robot.Audio.SetMasterVolumeAsync(5);
-                    await robot.Audio.SayTextAsync(message);
-                
-                    robot.StopSuppressingPersonality();
-
-                    await robot.DisconnectAsync();
-                    return true;
-                //}
-                //else
-                //{
-                //    Helpers.StatusInfo($"Vector is charging", "fail");
-                //    return false;
-                //}
-                
+                //say something
+                await robot.Audio.SetMasterVolumeAsync(5);
+                await robot.Audio.SayTextAsync(message);
+                robot.StopSuppressingPersonality();
+                await robot.Audio.SetMasterVolumeAsync(1);
+                await robot.DisconnectAsync();
+                Log.Logger.Information("Vector should of spoke the the text!");
+                return true;
             }
             catch (Exception e)
             {

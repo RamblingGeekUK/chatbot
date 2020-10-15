@@ -32,9 +32,6 @@ namespace ChatBot.Fauna
             _v = v;
         }
 
-        [FaunaField("DateTime")]
-        public DateTime DateTime { get; set; }
-
         [FaunaField("url")]
         public string URL { get; set; }
        
