@@ -15,7 +15,8 @@ namespace ChatBot
     public class DiscordBot : IDiscordBotService
     {
         private static DiscordClient _discordClient;
-        private TwitchClient _twitch_client;
+        private readonly TwitchClient _twitch_client;
+
         private Dictionary<string, ICommand> TwitchCommands;
         static CommandsNextModule commands;
 
@@ -45,19 +46,6 @@ namespace ChatBot
             });
 
             commands.RegisterCommands<ChatBot.DiscordBot.DiscordCommands>();
-
-            //_discordClient.MessageCreated += async e =>
-            //{
-            //    if (e.Message.Content.ToLower().StartsWith("!vector-say"))
-            //    {
-
-            //        //string commandmsg = e.Message.Content.ToString();
-            //        //string message = _discordClient //commandmsg.Substring(11, e.Message.Content.Length).ToString();
-
-            //       // await e.Message.RespondAsync("Sending your message... " + message);
-            //        //new CommandAnnounce(client).Execute(message);
-            //    }
-            //};
             await _discordClient.ConnectAsync();
         }
 
@@ -69,13 +57,13 @@ namespace ChatBot
 
         private class DiscordCommands
         {
-            private readonly TwitchClient _twitch_client;
             
             [Command("vector-say")]
             public async Task VectorSay(CommandContext ctx)
             {
                 await ctx.RespondAsync($"👋 Hi, {ctx.User.Mention}!");
 
+                TwitchClient _twitch_client = null;
                 new CommandAnnounce(_twitch_client).Execute($" I have a message from {ctx.User.Username}. He says {ctx.Message.Content.Remove(1, 10)}");
                 Log.Logger.Information("Messasge received from discord bot - I can't say any more");
             }

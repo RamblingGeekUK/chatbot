@@ -26,7 +26,11 @@ namespace ChatBot
         private Dictionary<string, ICommand> commands;
         private List<string> coders;
 
-        static readonly string ENDPOINT = "https://db.fauna.com:443";
+        FaunaClient faunaclient = new FaunaClient(endpoint: FaunaDB, secret: Settings.Fauna_Secret);
+
+        static readonly string FaunaDB = "https://db.fauna.com:443";
+
+
         public Task Start()
         {
             var credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
@@ -47,6 +51,8 @@ namespace ChatBot
                 this.commands = CommandHelper.GetCommands(client);
 
                 coders = GetLiveCoders();
+
+              
             }
             catch (Exception)
             {
@@ -64,13 +70,11 @@ namespace ChatBot
 
         private void OnMessageReceivedAsync(object sender, OnMessageReceivedArgs e)
         {
-
-         
-
             if (e.ChatMessage.IsBroadcaster)
             {
                 //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
                 //new CommandAnnounce(client).Execute(message, e);
+                Data.GetListVectorPronuciationAsync(faunaclient).Wait();
                 var connection = new HubConnectionBuilder()
                     .WithUrl("https://localhost:44365/chathub")
                     .Build();
@@ -83,8 +87,10 @@ namespace ChatBot
                 _ = ("!so " + e.ChatMessage.DisplayName);
                 new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
                 coders.Remove(e.ChatMessage.DisplayName);
-
-         
+            }
+            else if (e.ChatMessage.DisplayName.Contains("cmjchrisjones"))
+            {
+                new CommandAnnounce(client).Execute("Hello CMJ Chris Jones");
             }
 
             foreach (Match link in Regex.Matches(e.ChatMessage.Message,
@@ -96,8 +102,8 @@ namespace ChatBot
                 if (!e.ChatMessage.DisplayName.StartsWith("StreamElements"))
                 {
                     Log.Information($"link : {DateTime.UtcNow.ToString()}, {protocollink}", "info");
-                    var client = new FaunaClient(endpoint: ENDPOINT, secret: Settings.Fauna_Secret);
-                    Data.WriteLink(client, protocollink).Wait();
+
+                    Data.WriteLink(faunaclient, protocollink).Wait();
                     DiscordBot.PostMessage(e.ChatMessage.DisplayName, 729021058568421386, protocollink).Wait();
                 }
             }
