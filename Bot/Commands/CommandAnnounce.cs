@@ -3,6 +3,7 @@ using Serilog;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,38 +73,43 @@ namespace ChatBot.Base
 
                 BatteryState x = await robot.GetBatteryStateAsync();
 
-                robot.Camera.StartCameraFeed();
-                robot.Camera.OnImageReceived += (sender, e) =>
-                {
-                    Image(e.Image);
-                };
+                //await robot.World.AddWallMarkerAsync("My Marker", ObjectMarker.Circles2, true, 30, 30, 30, 30); //register a 30mm custom marker
+                //robot.EventListeningAsync().ThrowFeedException(); //start listening for recognized markers
 
-                await robot.World.AddWallMarkerAsync("My Marker", ObjectMarker.Circles2, true, 30, 30, 30, 30); //register a 30mm custom marker
-                robot.EventListeningAsync().ThrowFeedException(); //start listening for recognized markers
+                //robot.World.OnObjectObserved += (sender, e) =>
+                //{
+                //    if (e.Object.Name == "My Marker")
+                //    {
+                //        Log.Information($"Found marker", "fail");
+                //    }
+                //};
 
-                robot.World.OnObjectObserved += (sender, e) =>
-                {
-                    if (e.Object.Name == "My Marker")
-                    {
-                        Log.Information($"Found marker", "fail");
-                    }
-                };
+                
+                //robot.Camera.OnImageReceived += (sender, e) =>
+                //{
+                //    Image(e.Image);
+                //};
+                //await robot.Camera.CameraFeedAsync();
+
+                //robot.Camera.StopCameraFeed();
 
                 //await robot.Screen.SetScreenImage(@"");
 
                 //gain control over the robot by suppressing its personality
                 robot.StartSuppressingPersonality();
                 await robot.WaitTillPersonalitySuppressedAsync();
-                              
+
                 //say something
+               
                 await robot.Audio.SetMasterVolumeAsync(5);
                 await robot.Audio.SayTextAsync(message);
 
                 //await robot.Animation.PlayAsync("anim_vc_laser_lookdown_01");
-
+                
                 robot.StopSuppressingPersonality();
                 await robot.Audio.SetMasterVolumeAsync(1);
                 await robot.DisconnectAsync();
+                
                 Log.Logger.Information("Vector should of spoke the the text!");
                 return true;
             }
@@ -151,8 +157,12 @@ namespace ChatBot.Base
             {
                 Log.Information($"Failed to create image {e.Message}", "fail");
             }
-           
-    }
+            finally
+            {
+                Log.Information($"Image created. ({Directory.GetCurrentDirectory()}\\image.jpg)", "Sucess");
+            }
+
+        }
     private static ImageCodecInfo GetEncoderInfo(String mimeType)
     {
         int j;
