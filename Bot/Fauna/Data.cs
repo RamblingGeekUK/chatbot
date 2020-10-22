@@ -37,40 +37,31 @@ namespace ChatBot.Fauna
                 );
         }
 
+        static void ProcessData(Value[] values)
+        {
+
+            //List<VIP> users = values;
+
+            //foreach (Value value in values)
+            //{
+            //    Console.WriteLine("{0}", value.toA);
+            //}
+        }
+           
         public static async Task GetListVectorPronuciationAsync(FaunaClient client)
         {
 
-            Value value = await client.Query(Get(Ref(Collection("vectorpronunciation"), "279657734277693957")));
-            //VIP vip = Decoder.Decode<VIP>(value.At("data"));
+            Value result = await client.Query(Paginate(Match(Index("vpronunciation")), size: 10));
 
-            IResult<VIP> vip = value.At("data").To<VIP>();
-            vip.Match(
-                Success: p => Console.WriteLine(">: {0}", p.TwitchDisplayName),
+            IResult<Value[]> data = result.At("data").To<Value[]>();
+
+            data.Match(
+                Success: value => ProcessData(value),
                 Failure: reason => Console.WriteLine($"Something went wrong: {reason}")
             );
 
 
-            //VIP viploaded = value.At("data").To<VIP>().Value;
 
-           // Console.WriteLine("Twitch : {0}", viploaded.VectorProronunciation);
-
-            // List<VIP> vip = new List<VIP>();
-            
-            
-
-            //IResult<VIP> product = value.At("data").To<VIP>();
-            //product.Match(
-            //    Success: p => Console.WriteLine("Twitch Name: {0}, Vector Name {1}", p.TwitchDisplayName, p.VectorProronunciation),
-            //    Failure: reason => Console.WriteLine($"Something went wrong: {reason}")
-            //);
-
-            // or even:
-
-            //Product productLoaded = value.At("data").To<Product>().Value;
-            //Console.WriteLine("Product loaded: {0}", prod.Description);
-            //var names = JsonConvert.DeserializeObject<VIP>(result);
-            //new List<string>(team.users.Select(c => c.display_name));
-            //return new List<string>(names.VectorProronunciation.Select(c => c.));
 
         }
     }

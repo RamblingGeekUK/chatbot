@@ -6,6 +6,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using TwitchLib.Client;
 
@@ -64,8 +65,11 @@ namespace ChatBot
                 await ctx.RespondAsync($"👋 Hi, {ctx.User.Mention}!");
 
                 TwitchClient _twitch_client = null;
-                new CommandAnnounce(_twitch_client).Execute($" I have a message from {ctx.User.Username}. He says {ctx.Message.Content.Remove(1, 10)}");
-                Log.Logger.Information("Messasge received from discord bot - I can't say any more");
+                new CommandAnnounce(_twitch_client).Execute($"{ctx.Message.Content.Remove(1, 10)}. That was a message from {ctx.User.Username}.");
+                Log.Logger.Information("Message received from discord bot - I can't say any more");
+                await ctx.Message.RespondAsync($"Your message has been sent");
+
+                await ctx.Channel.SendFileAsync($"{Directory.GetCurrentDirectory()}\\image.jpg");
             }
         }
     }
