@@ -17,6 +17,7 @@ using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 
 
+
 namespace ChatBot
 {
     public class TwitchBot : ITwitchBotService
@@ -36,7 +37,7 @@ namespace ChatBot
                 client = new TwitchClient();
                 client.Initialize(credentials, Settings.Twitch_channel);
                 client.OnLog += Client_OnLog;
-                client.OnMessageReceived += OnMessageReceivedAsync;
+                client.OnMessageReceived += OnMessageReceived;
                 client.OnJoinedChannel += Client_OnJoinedChannel;
                 client.OnConnected += Client_OnConnectedAsync;
                 client.OnChatCommandReceived += Client_OnChatCommandReceived;
@@ -62,45 +63,34 @@ namespace ChatBot
             Log.Information($"Whisper received from : {e.WhisperMessage.DisplayName}", "ok");
         }
 
-        private void OnMessageReceivedAsync(object sender, OnMessageReceivedArgs e)
+        private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
 
-         
+            var fclient = new FaunaClient(endpoint: ENDPOINT, secret: Settings.Fauna_Secret);
 
-            if (e.ChatMessage.IsBroadcaster)
+            if (coders.Contains(e.ChatMessage.DisplayName))
             {
-                //string message = "hey, don't forget to follow and subscribe, if you're a twitch prime member, drop your free sub here.";
-                //new CommandAnnounce(client).Execute(message, e);
-                //var connection = new HubConnectionBuilder()
-                //    .WithUrl("https://localhost:44365/chathub")
-                //    .Build();
-                //connection.StartAsync().Wait();
-                //connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
-
-            }
-            else if (coders.Contains(e.ChatMessage.DisplayName))
-            {
+                //string name = await GetVectorPronunciation(fclient, e.ChatMessage.DisplayName);
                 _ = ("!so " + e.ChatMessage.DisplayName);
-                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch.tv/{e.ChatMessage.DisplayName}", e);
+                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch dot tv/{e.ChatMessage.DisplayName}", e);
                 coders.Remove(e.ChatMessage.DisplayName);
-
-         
             }
 
             foreach (Match link in Regex.Matches(e.ChatMessage.Message,
                 @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
             {
-
                 var protocollink = new UriBuilder(link.Value.ToString()).Uri.ToString();
-
+              
                 if (!e.ChatMessage.DisplayName.StartsWith("StreamElements"))
                 {
                     Log.Information($"link : {DateTime.UtcNow.ToString()}, {protocollink}", "info");
-                    var client = new FaunaClient(endpoint: ENDPOINT, secret: Settings.Fauna_Secret);
-                    Data.WriteLink(client, protocollink).Wait();
+                    Data.WriteLink(fclient, protocollink).Wait();
                     DiscordBot.PostMessage(e.ChatMessage.DisplayName, 729021058568421386, protocollink).Wait();
                 }
             }
+
+            Data.GetVectorPronunciation(fclient, e.ChatMessage.Username).Wait();
+            Data.GetVectorPronunciationAll(fclient).Wait();
         }
 
         private void Client_OnRaidNotification(object sender, OnRaidNotificationArgs e)

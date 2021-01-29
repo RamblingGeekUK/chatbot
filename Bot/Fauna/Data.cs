@@ -1,6 +1,8 @@
 ﻿using FaunaDB.Client;
+using FaunaDB.Query;
 using FaunaDB.Types;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using static FaunaDB.Query.Language;
 
@@ -19,6 +21,48 @@ namespace ChatBot.Fauna
                     )
                 );
         }
+
+        public static async Task GetVectorPronunciation(FaunaClient client, string twitchdisplayname)
+        {
+            Value result = await client.Query(
+                        Get(
+                        Match(Index("vectorprounciation_get_twitch_user"), twitchdisplayname)));
+
+            TwitchUsers twitchusers = Decoder.Decode<TwitchUsers>(result.At("data"));
+            Console.WriteLine("{0} : {1}", twitchusers.VectorProronunciation, twitchusers.TwitchDisplayName);
+
+        }
+
+    public static async Task GetVectorPronunciationAll(FaunaClient client)
+        {
+            Value result = await client.Query(
+                        Get(
+                        Match(Index("vpronunciation"))));
+
+            IResult<Value> data = result.At("data").To<Value>();
+
+            data.Match(
+                Success: value => ProcessData(value),
+                Failure: reason => Console.WriteLine($"Something went wrong: {reason}")
+            );
+
+        }
+
+ 
+        static void ProcessData(Value values)
+        {
+           
+                Console.WriteLine(values);
+           
+        }
+
+    }
+    class TwitchUsers
+    {
+        [FaunaField("TwitchDisplayName")]
+        public string TwitchDisplayName { get; set; }
+        [FaunaField("VectorProronunciation")]
+        public string VectorProronunciation { get; set; }
     }
 
     class Links
