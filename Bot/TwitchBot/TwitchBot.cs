@@ -66,6 +66,8 @@ namespace ChatBot
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
 
+
+
             var fclient = new FaunaClient(endpoint: ENDPOINT, secret: Settings.Fauna_Secret);
 
             if (coders.Contains(e.ChatMessage.DisplayName))
@@ -89,8 +91,16 @@ namespace ChatBot
                 }
             }
 
-            Data.GetVectorPronunciation(fclient, e.ChatMessage.Username).Wait();
-            Data.GetVectorPronunciationAll(fclient).Wait();
+            var connection = new HubConnectionBuilder()
+               .WithUrl("http://localhost:53425/chathub")
+               .Build();
+
+            connection.StartAsync().Wait();
+            connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+
+
+            //Data.GetVectorPronunciation(fclient, e.ChatMessage.Username).Wait();
+            // Data.GetVectorPronunciationAll(fclient).Wait();
         }
 
         private void Client_OnRaidNotification(object sender, OnRaidNotificationArgs e)

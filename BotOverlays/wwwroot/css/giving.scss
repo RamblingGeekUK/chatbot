@@ -1,0 +1,107 @@
+@import "main";
+
+.giving {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 400px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    
+  .notice {
+    position: relative;
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, .8);
+
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-image-source: $gradient;
+    border-image-slice: 1;
+
+    height: 0%;
+    width: 0%;
+
+    overflow: hidden;
+
+    &.openClose-enter-active, .openClose-enter-to {
+      animation: OpenClose 15s ease-in-out none;
+    }
+
+    h2 {
+      color: white;
+      font-size: 3em;
+      font-weight: bold;
+      margin: 0px;
+      text-align: center;
+      font-family: 'PT Sans', sans-serif;
+
+      &.tier {
+        background: $gradient;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    ul {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.3em;
+      list-style: none;
+      color: white;
+      margin: 0px;
+      margin-bottom: 15px;
+      padding: 0px;
+
+      li {
+        text-align: center;
+      }
+    }
+  }
+}
+
+@keyframes FadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes OpenClose {
+  0% {
+    height: 0px;
+    width: 0%;
+  }
+
+  3% {
+    height: 0px;
+    width: 100%;
+  }
+
+  8% {
+    height: 150px;
+    width: 100%;
+  }
+
+  72% {
+    height: 150px;
+    width: 100%;
+  }
+
+  77% {
+    height: 0px;
+    width: 100%;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+  }
+
+  80% {
+    height: 0px;
+    width: 0%;
+  }
+}

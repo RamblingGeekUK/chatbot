@@ -35,24 +35,34 @@ namespace ChatBot.Fauna
 
     public static async Task GetVectorPronunciationAll(FaunaClient client)
         {
-            Value result = await client.Query(
-                        Get(
-                        Match(Index("vpronunciation"))));
 
-            IResult<Value> data = result.At("data").To<Value>();
+            Value value = await client.Query(Paginate(Match(Index("vpronunciation"))));
 
-            data.Match(
-                Success: value => ProcessData(value),
-                Failure: reason => Console.WriteLine($"Something went wrong: {reason}")
-            );
 
+            TwitchUsers twitchUsers = value.At("data").To<TwitchUsers>().Value;
+            Console.WriteLine(" loaded: {0}", twitchUsers.VectorProronunciation);
+
+            //Value result = await client.Query(
+            //            Get(
+            //            Match(Index("vpronunciation"))));
+
+            //IResult<Value> data = result.At("data").To<Value>();
+
+            //data.Match(
+            //    Success: value => ProcessData(value),
+            //    Failure: reason => Console.WriteLine($"Something went wrong: {reason}")
+            //);
+
+            //TwitchUsers twitchusers = (TwitchUsers)result.At("data").To<TwitchUsers>();
+            //Console.WriteLine(twitchusers.TwitchDisplayName);
         }
 
  
         static void ProcessData(Value values)
         {
-           
-                Console.WriteLine(values);
+            List<TwitchUsers> twitchUsers = new List<TwitchUsers>();
+            
+            Console.WriteLine(values);
            
         }
 
