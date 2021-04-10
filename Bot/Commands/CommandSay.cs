@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using DSharpPlus.CommandsNext.Attributes;
+using Serilog;
 using System;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
@@ -8,11 +9,13 @@ namespace ChatBot.Base
 {
     public class CommandSay : CommandBase, ICommand
     {
+        
         public CommandSay(TwitchClient client)
             : base(client)
         {
         }
-        
+
+        [Command("vector-say")]
         public void Execute(OnChatCommandReceivedArgs e)
         {
             try
