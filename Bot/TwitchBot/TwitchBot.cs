@@ -30,10 +30,11 @@ namespace ChatBot
         static readonly string ENDPOINT = "https://db.fauna.com:443";
         public Task Start()
         {
-            var credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
 
             try
             {
+                var credentials = new ConnectionCredentials(Settings.Twitch_botusername, Settings.Twitch_token);
+
                 client = new TwitchClient();
                 client.Initialize(credentials, Settings.Twitch_channel);
                 client.OnLog += Client_OnLog;
@@ -51,7 +52,8 @@ namespace ChatBot
             }
             catch (Exception)
             {
-                Log.Logger.Error("Normally to end up here, no enviroment varaibles are set :-)");
+                Log.Logger.Error("Normally to end up here, no enviroment varaibles are set 😊");
+                System.Environment.Exit(0);
             }
 
             return Task.FromResult(0);
