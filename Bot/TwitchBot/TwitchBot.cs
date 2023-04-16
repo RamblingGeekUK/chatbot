@@ -48,7 +48,7 @@ namespace ChatBot
 
                 this.commands = CommandHelper.GetCommands(client);
 
-                coders = GetLiveCoders();
+                coders = GetLiveCoders();  // this fails :D
             }
             catch (Exception)
             {
@@ -87,18 +87,18 @@ namespace ChatBot
               
                 if (!e.ChatMessage.DisplayName.StartsWith("StreamElements"))
                 {
-                    Log.Information($"link : {DateTime.UtcNow.ToString()}, {protocollink}", "info");
-                    Data.WriteLink(fclient, protocollink).Wait();
+                //    Log.Information($"link : {DateTime.UtcNow.ToString()}, {protocollink}", "info");
+                //    Data.WriteLink(fclient, protocollink).Wait();
                     DiscordBot.PostMessage(e.ChatMessage.DisplayName, 729021058568421386, protocollink).Wait();
                 }
             }
 
-            var connection = new HubConnectionBuilder()
-               .WithUrl("http://localhost:53425/chathub")
-               .Build();
+            //var connection = new HubConnectionBuilder()
+            //   .WithUrl("http://localhost:53425/chathub")
+            //   .Build();
 
-            connection.StartAsync().Wait();
-            connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
+            //connection.StartAsync().Wait();
+            //connection.InvokeCoreAsync("SendMessage", args: new[] { e.ChatMessage.Message, e.ChatMessage.Username });
 
 
             //Data.GetVectorPronunciation(fclient, e.ChatMessage.Username).Wait();
@@ -137,8 +137,7 @@ namespace ChatBot
             string vtalktext = "Hi, I'm here!";
 
             Log.Information("TwitchBot (J5Bot) Joined Twitch Chat", "ok");
-            client.SendMessage(e.Channel, "TwitchBot (J5Bot) Joined Twitch Chat");
-            client.SendMessage(e.Channel, "rambli4Vector is here.");
+            client.SendMessage(e.Channel, "rambli4Hype");
             new CommandAnnounce(client).Execute(vtalktext, e);
             Log.Information($"{vtalktext}", "vector");
 

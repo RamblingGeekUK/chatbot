@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using DSharpPlus.CommandsNext.Attributes;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using TwitchLib.Client;
@@ -12,7 +13,7 @@ namespace ChatBot.Base
             : base(client)
         {
         }
-
+        
         public void Execute(OnChatCommandReceivedArgs e)
         {
             client.SendMessage(e.Command.ChatMessage.Channel, "Sending..");
