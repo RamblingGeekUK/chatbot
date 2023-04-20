@@ -136,7 +136,7 @@ namespace ChatBot
         {
             string vtalktext = "Hi, I'm here!";
 
-            Log.Information("TwitchBot (J5Bot) Joined Twitch Chat", "ok");
+            Log.Information("TwitchBot Joined Twitch Chat", "ok");
             client.SendMessage(e.Channel, "rambli4Hype");
             new CommandAnnounce(client).Execute(vtalktext, e);
             Log.Information($"{vtalktext}", "vector");
