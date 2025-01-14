@@ -11,10 +11,13 @@ It also captures links from chat and writes them to a FaunaDB database and also 
 There are a few projects in this solution
 
 * Bot - Handles commands from chat and Contains the Vector code
+
 * BotAPI - Planned API to the allow controlling of vector outside of the Chat - Not yet implenmented.
+
 * BotOverlays - Working on the bot running the overlays for the stream  this listens for the the chat
   from signalr which is being sent from Bot - Work in progres
-* LibGRPc is the library require for Vector.NET to run on a RaspberryPI. 
-* ClientConsole - Test Signalr console application
 
+* LibGRPc is the library require for Vector.NET to run on a RaspberryPI. 
+
+* ClientConsole - Test Signalr console application
 
