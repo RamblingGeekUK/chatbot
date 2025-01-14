@@ -48,7 +48,7 @@ namespace ChatBot
 
                 this.commands = CommandHelper.GetCommands(client);
 
-                //coders = GetLiveCoders();  // this fails :D
+                coders = GetLiveCoders();  // this fails :D
             }
             catch (Exception)
             {
@@ -72,13 +72,13 @@ namespace ChatBot
 
             var fclient = new FaunaClient(endpoint: ENDPOINT, secret: Settings.Fauna_Secret);
 
-            //if (coders?.Any() != true | coders != null && coders.Contains(e.ChatMessage.DisplayName))
-            //{
-            //    //string name = await GetVectorPronunciation(fclient, e.ChatMessage.DisplayName);
-            //    _ = ("!so " + e.ChatMessage.DisplayName);
-            //    new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch dot tv/{e.ChatMessage.DisplayName}", e);
-            //    coders.Remove(e.ChatMessage.DisplayName);
-            //}
+            if (coders.Contains(e.ChatMessage.DisplayName))
+            {
+                //string name = await GetVectorPronunciation(fclient, e.ChatMessage.DisplayName);
+                _ = ("!so " + e.ChatMessage.DisplayName);
+                new CommandAnnounce(client).Execute($"A live coder is in the chat, check out {e.ChatMessage.DisplayName}, stream at twitch dot tv/{e.ChatMessage.DisplayName}", e);
+                coders.Remove(e.ChatMessage.DisplayName);
+            }
 
             foreach (Match link in Regex.Matches(e.ChatMessage.Message,
                 @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"))
