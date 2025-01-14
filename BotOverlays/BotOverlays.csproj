@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="bootstrap" Version="4.5.0" />
+    <PackageReference Include="bootstrap" Version="5.0.0" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
