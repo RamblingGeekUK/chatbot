@@ -16,3 +16,5 @@ There are a few projects in this solution
   from signalr which is being sent from Bot - Work in progres
 * LibGRPc is the library require for Vector.NET to run on a RaspberryPI. 
 * ClientConsole - Test Signalr console application
+
+
