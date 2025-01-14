@@ -1,0 +1,8 @@
+total 13
+dr--r-----    3 888      888           1024 Jan  1  1970 .
+drwxr-xr-x    4 root     root          1024 Jan  1 00:00 ..
+dr--r-----    2 888      888           1024 Jan  1  1970 00403161
+-r--r-----    1 888      888           1472 Jan  1  1970 AnkiRobotDeviceCert.pem
+-r--r-----    1 888      888           1704 Jan  1  1970 AnkiRobotDeviceKeys.pem
+-r--r-----    1 888      888            792 Jan  1  1970 Info00403161.json
+QSN=348613601 # ESN=00403161
